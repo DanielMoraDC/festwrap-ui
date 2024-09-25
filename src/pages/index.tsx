@@ -15,10 +15,10 @@ export default function Home() {
       <Card>
         <span>Signed in as {session?.user?.email || session?.user?.name}</span>
         <div className="flex flex-row gap-2">
-          <Button accent="primary" onClick={copyToClipboardToken}>
+          <Button variant="primary" onClick={copyToClipboardToken}>
             Copy access token
           </Button>
-          <Button accent="tertiary" onClick={() => signOut()}>
+          <Button variant="ghost" onClick={() => signOut()}>
             Sign out
           </Button>
         </div>
@@ -30,7 +30,7 @@ export default function Home() {
     <Card>
       <span>Not signed in</span>
       <Button
-        accent="secondary"
+        variant="secondary"
         onClick={() => signIn("spotify", { callbackUrl: "/" })}
       >
         Login with Spotify

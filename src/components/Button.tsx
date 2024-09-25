@@ -1,30 +1,42 @@
+import { forwardRef } from "react"
 import { twMerge } from "tailwind-merge"
 
-type AccentTypes = "primary" | "secondary" | "tertiary"
+type ButtonVariant = 'primary' | 'secondary' | 'ghost'
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+type ButtonProps<T extends React.ElementType> = {
+  as?: T
   children: React.ReactNode
-  accent: AccentTypes
-}
+  variant?: ButtonVariant
+  className?: string
+} & React.ComponentPropsWithoutRef<T>
 
-const accentClasses = {
+const variantClasses: Record<ButtonVariant, string> = {
   primary: "bg-primary text-white hover:bg-primary hover:bg-opacity-90",
   secondary: "bg-secondary text-dark hover:bg-opacity-90",
-  tertiary:
-    "bg-gray-100 text-gray-800 hover:bg-gray-100 border border-gray-100",
+  ghost: 'hover:bg-gray-100 text-gray-800'
 }
 
-const baseClasses = "px-4 py-2 rounded-lg font-medium"
+const baseClasses = 'px-4 py-2 rounded-md font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary transition-colors duration-200'
 
-const Button = ({ children, accent, ...buttonProps }: ButtonProps) => {
+export const Button = forwardRef(<T extends React.ElementType = 'button'>(
+  { as, children, variant = 'primary', className = '', ...props }: ButtonProps<T>,
+  ref: React.ComponentPropsWithRef<T>['ref']
+) => {
+  const Component = as || 'button'
+  const variantClass = variantClasses[variant]
+
   return (
-    <button
-      className={twMerge(baseClasses, accentClasses[accent])}
-      {...buttonProps}
+    <Component
+      className={twMerge(baseClasses, variantClass, className)}
+      ref={ref}
+      {...(Component !== 'button' ? { role: 'button', tabIndex: 0 } : {})}
+      {...props}
     >
       {children}
-    </button>
+    </Component>
   )
-}
+}) as <T extends React.ElementType = 'button'>(
+  props: ButtonProps<T> & { ref?: React.ComponentPropsWithRef<T>['ref'] }
+) => React.ReactElement
 
 export default Button
