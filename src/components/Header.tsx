@@ -30,9 +30,12 @@ const Header = () => {
             <NavLink href="/about-us">About us</NavLink>
           </nav>
           <div className="flex md:hidden justify-end">
-            <span onClick={() => setIsMenuOpen((prevValue) => !prevValue)}>
+            <Button
+              variant="ghost"
+              onClick={() => setIsMenuOpen((prevValue) => !prevValue)}
+            >
               Menu
-            </span>
+            </Button>
           </div>
           {isMenuOpen && (
             <div className="md:hidden fixed top-0 left-0 w-full h-full bg-white">
@@ -52,14 +55,14 @@ const Header = () => {
                   </div>
                   <div className="flex justify-end">
                     <Button
-                      accent="secondary"
+                      variant="ghost"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Close
                     </Button>
                   </div>
                 </div>
-                <nav className="flex flex-col gap-6">
+                <nav className="flex flex-col items-center justify-center gap-6 py-4">
                   <NavLink variant="mobile" href="/get-started">
                     Get started
                   </NavLink>
