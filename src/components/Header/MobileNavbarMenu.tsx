@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link"
 import Button from "../Button"
-import NavLink from "../NavLink"
+import NavLink from "./NavLink"
 import Image from "next/image"
 import { useState } from "react"
 

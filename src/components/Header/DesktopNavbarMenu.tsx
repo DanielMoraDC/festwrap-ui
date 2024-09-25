@@ -1,7 +1,7 @@
 "use client"
 import { signIn, useSession } from "next-auth/react"
 import Button from "../Button"
-import NavLink from "../NavLink"
+import NavLink from "./NavLink"
 import UserMenu from "./UserMenu"
 
 const DesktopNavbarMenu = () => {
