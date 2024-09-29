@@ -1,5 +1,5 @@
 import LogoLink from "./LogoLink"
-import NavbarMenu from "@/components/Header/NavbarMenu/NavbarMenu"
+import NavbarMenu from "@/components/layout/Header/NavbarMenu/NavbarMenu"
 
 const Header = () => {
   return (

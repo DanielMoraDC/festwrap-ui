@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link"
-import Button from "@/components/Button"
-import NavLink from "@/components/Header/NavbarMenu/NavLink"
+import Button from "@/components/ui/Button"
+import NavLink from "@/components/layout/Header/NavbarMenu/NavLink"
 import Image from "next/image"
 import { useState } from "react"
 

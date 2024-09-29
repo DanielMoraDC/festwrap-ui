@@ -1,6 +1,6 @@
 import { Session } from "next-auth"
 import { signOut } from "next-auth/react"
-import Button from "@/components/Button"
+import Button from "@/components/ui/Button"
 import {
   DropdownMenu,
   DropdownMenuContent,
