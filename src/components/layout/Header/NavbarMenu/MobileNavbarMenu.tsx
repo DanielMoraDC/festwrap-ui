@@ -4,8 +4,12 @@ import Button from "@/components/ui/Button"
 import NavLink from "@/components/layout/Header/NavbarMenu/NavLink"
 import Image from "next/image"
 import { useState } from "react"
+import { Menu, X } from "lucide-react"
+import UserMenu from "./UserMenu"
+import { signIn, useSession } from "next-auth/react"
 
 const MobileNavbarMenu = () => {
+  const { data: session } = useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
@@ -14,8 +18,9 @@ const MobileNavbarMenu = () => {
         <Button
           variant="ghost"
           onClick={() => setIsMenuOpen((prevValue) => !prevValue)}
+          isIconOnly
         >
-          Menu
+          <Menu size={24} />
         </Button>
       </div>
       {isMenuOpen && (
@@ -34,9 +39,13 @@ const MobileNavbarMenu = () => {
                   />
                 </Link>
               </div>
-              <div className="flex justify-end">
-                <Button variant="ghost" onClick={() => setIsMenuOpen(false)}>
-                  Close
+              <div className="flex justify-end gap-3">
+                <Button
+                  variant="ghost"
+                  onClick={() => setIsMenuOpen(false)}
+                  isIconOnly
+                >
+                  <X size={24} />
                 </Button>
               </div>
             </div>
@@ -50,6 +59,16 @@ const MobileNavbarMenu = () => {
               <NavLink variant="mobile" href="/about-us">
                 About us
               </NavLink>
+              {session ? (
+                <UserMenu session={session} isMobileScreen />
+              ) : (
+                <Button
+                  variant="primary"
+                  onClick={() => signIn("spotify", { callbackUrl: "/" })}
+                >
+                  Login with Spotify
+                </Button>
+              )}
             </nav>
           </div>
         </div>

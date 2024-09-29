@@ -13,12 +13,10 @@ import {
 
 type UserMenuProps = {
   session: Session
+  isMobileScreen?: boolean
 }
 
-const dropdownMenuItemClasses =
-  "group text-sm text-dark font-medium hover:bg-secondary hover:bg-opacity-50 flex items-center px-4 py-2 rounded-md cursor-pointer outline-none focus:bg-secondary focus:bg-opacity-50"
-
-const UserMenu = ({ session }: UserMenuProps) => {
+const UserMenu = ({ session, isMobileScreen }: UserMenuProps) => {
   const getInitialsFromName = (name: string) => {
     const nameSplitBySpaces = name.split(" ")
     return nameSplitBySpaces.map((n) => n[0]).join("")
@@ -28,6 +26,8 @@ const UserMenu = ({ session }: UserMenuProps) => {
     navigator.clipboard.writeText(session?.user?.accessToken || "")
   }
 
+  const dropdownOverlayAlignment = isMobileScreen ? "center" : "end"
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -35,7 +35,11 @@ const UserMenu = ({ session }: UserMenuProps) => {
           {getInitialsFromName(session.user.name || "")}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
+      <DropdownMenuContent
+        className="w-56"
+        align={dropdownOverlayAlignment}
+        forceMount
+      >
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text font-medium leading-none">{session.user.name}</p>
