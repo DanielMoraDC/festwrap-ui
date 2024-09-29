@@ -18,7 +18,11 @@ const variantClasses: Record<NavLinkVariant, string> = {
 
 const NavLink = ({ href, children, variant = "desktop" }: NavLinkProps) => {
   return (
-    <Link href={href} className={twMerge(baseClasses, variantClasses[variant])}>
+    <Link
+      href={href}
+      role="link"
+      className={twMerge(baseClasses, variantClasses[variant])}
+    >
       {children}
     </Link>
   )

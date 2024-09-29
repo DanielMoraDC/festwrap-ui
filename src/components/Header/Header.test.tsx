@@ -56,6 +56,25 @@ describe("Header", () => {
     window.PointerEvent = MouseEvent as typeof PointerEvent
   })
 
+  test("should render header", () => {
+    vi.mocked(useSession).mockReturnValue({
+      update: vi.fn(),
+      data: null,
+      status: "unauthenticated",
+    })
+
+    render(<Header />)
+
+    // check navlinks
+    expect(
+      screen.getByRole("link", { name: /Get started/i })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole("link", { name: /How does it works\?/i })
+    ).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: /About us/i })).toBeInTheDocument()
+  })
+
   test("should render sign in button when there is not session", () => {
     vi.mocked(useSession).mockReturnValue({
       update: vi.fn(),
