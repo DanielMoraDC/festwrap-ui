@@ -1,6 +1,5 @@
-import MobileNavbarMenu from "@components/Header/MobileNavbarMenu"
-import DesktopNavbarMenu from "./DesktopNavbarMenu"
 import LogoLink from "./LogoLink"
+import NavbarMenu from "@/components/Header/NavbarMenu/NavbarMenu"
 
 const Header = () => {
   return (
@@ -10,8 +9,7 @@ const Header = () => {
           <div className="flex justify-start">
             <LogoLink />
           </div>
-          <DesktopNavbarMenu />
-          <MobileNavbarMenu />
+          <NavbarMenu />
         </div>
       </div>
     </header>
