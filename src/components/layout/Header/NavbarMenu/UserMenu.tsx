@@ -31,7 +31,7 @@ const UserMenu = ({ session }: UserMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" isIconOnly>
+        <Button variant="secondary" isIconOnly>
           {getInitialsFromName(session.user.name || "")}
         </Button>
       </DropdownMenuTrigger>
