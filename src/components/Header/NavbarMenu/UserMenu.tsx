@@ -1,4 +1,3 @@
-import * as Avatar from "@radix-ui/react-avatar"
 import { Session } from "next-auth"
 import { signOut } from "next-auth/react"
 import Button from "@/components/Button"
@@ -21,8 +20,8 @@ const dropdownMenuItemClasses =
 
 const UserMenu = ({ session }: UserMenuProps) => {
   const getInitialsFromName = (name: string) => {
-    const [firstName, lastName] = name.split(" ")
-    return `${firstName.charAt(0)}${lastName.charAt(0)}`
+    const nameSplitBySpaces = name.split(" ")
+    return nameSplitBySpaces.map((n) => n[0]).join("")
   }
 
   const copyToClipboardToken = () => {
@@ -32,17 +31,15 @@ const UserMenu = ({ session }: UserMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost">
+        <Button variant="ghost" isIconOnly>
           {getInitialsFromName(session.user.name || "")}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">
-              {session.user.name}
-            </p>
-            <p className="text-xs leading-none text-muted-foreground">
+            <p className="text font-medium leading-none">{session.user.name}</p>
+            <p className="text-sm leading-none text-muted-foreground">
               {session.user.email}
             </p>
           </div>

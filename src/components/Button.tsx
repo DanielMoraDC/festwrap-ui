@@ -1,5 +1,5 @@
+import { cn } from "@/lib/utils"
 import { forwardRef } from "react"
-import { twMerge } from "tailwind-merge"
 
 type ButtonVariant = "primary" | "secondary" | "ghost"
 
@@ -8,6 +8,7 @@ type ButtonProps<T extends React.ElementType> = {
   children: React.ReactNode
   variant?: ButtonVariant
   className?: string
+  isIconOnly?: boolean
 } & React.ComponentPropsWithoutRef<T>
 
 const variantClasses: Record<ButtonVariant, string> = {
@@ -16,8 +17,13 @@ const variantClasses: Record<ButtonVariant, string> = {
   ghost: "hover:bg-gray-100 text-gray-800",
 }
 
+const paddingClasses: Record<string, string> = {
+  onlyIcon: "p-2",
+  iconWithText: "py-2 px-4",
+}
+
 const baseClasses =
-  "px-4 py-2 rounded-md font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary transition-colors duration-200"
+  "rounded-md font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary transition-colors duration-200"
 
 // eslint-disable-next-line react/display-name
 export const Button = forwardRef(
@@ -27,16 +33,20 @@ export const Button = forwardRef(
       children,
       variant = "primary",
       className = "",
+      isIconOnly = false,
       ...props
     }: ButtonProps<T>,
     ref: React.ComponentPropsWithRef<T>["ref"]
   ) => {
     const Component = as || "button"
     const variantClass = variantClasses[variant]
+    const paddingClass = isIconOnly
+      ? paddingClasses.onlyIcon
+      : paddingClasses.iconWithText
 
     return (
       <Component
-        className={twMerge(baseClasses, variantClass, className)}
+        className={cn(baseClasses, variantClass, paddingClass, className)}
         ref={ref}
         {...(Component !== "button" ? { role: "button", tabIndex: 0 } : {})}
         {...props}
