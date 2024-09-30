@@ -18,31 +18,31 @@ Object.assign(navigator, {
   },
 })
 
-vi.mock("@/components/ui/DropdownMenu", () => ({
-  DropdownMenu: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  ),
-  DropdownMenuTrigger: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  ),
-  DropdownMenuContent: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="dropdown-content">{children}</div>
-  ),
-  DropdownMenuLabel: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  ),
-  DropdownMenuSeparator: () => <hr />,
-  DropdownMenuGroup: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  ),
-  DropdownMenuItem: ({
-    children,
-    onClick,
-  }: {
-    children: React.ReactNode
-    onClick?: () => void
-  }) => <button onClick={onClick}>{children}</button>,
-}))
+// vi.mock("@/components/ui/DropdownMenu", () => ({
+//   DropdownMenu: ({ children }: { children: React.ReactNode }) => (
+//     <div>{children}</div>
+//   ),
+//   DropdownMenuTrigger: ({ children }: { children: React.ReactNode }) => (
+//     <div>{children}</div>
+//   ),
+//   DropdownMenuContent: ({ children }: { children: React.ReactNode }) => (
+//     <div data-testid="dropdown-content">{children}</div>
+//   ),
+//   DropdownMenuLabel: ({ children }: { children: React.ReactNode }) => (
+//     <div>{children}</div>
+//   ),
+//   DropdownMenuSeparator: () => <hr />,
+//   DropdownMenuGroup: ({ children }: { children: React.ReactNode }) => (
+//     <div>{children}</div>
+//   ),
+//   DropdownMenuItem: ({
+//     children,
+//     onClick,
+//   }: {
+//     children: React.ReactNode
+//     onClick?: () => void
+//   }) => <button onClick={onClick}>{children}</button>,
+// }))
 
 describe("Header", () => {
   const TOMORRROW_DATE = new Date(Date.now() + 86400).toISOString()
