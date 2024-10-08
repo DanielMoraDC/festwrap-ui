@@ -3,7 +3,7 @@ import Link from "next/link"
 const Footer = () => {
   const currentYear = new Date().getFullYear()
   return (
-    <footer className="bg-secondary bg-opacity-30 text-light">
+    <footer className="bg-secondary bg-opacity-30 text-dark">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="flex justify-center space-x-6">
           <nav className="flex flex-col sm:flex-row gap-5 sm:gap-10 font-medium text-sm">
