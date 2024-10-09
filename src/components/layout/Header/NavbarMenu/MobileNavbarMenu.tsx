@@ -21,7 +21,12 @@ const MobileNavbarMenu = () => {
   return (
     <>
       <div className="flex md:hidden justify-end">
-        <Button variant="ghost" onClick={handleMenuOpen} isIconOnly>
+        <Button
+          variant="ghost"
+          onClick={handleMenuOpen}
+          isIconOnly
+          title="Open menu"
+        >
           <Menu size={24} />
         </Button>
       </div>
