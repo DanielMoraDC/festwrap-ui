@@ -20,7 +20,7 @@ const HeroSectionLeft = () => {
         using festival line-up
       </motion.h1>
       <motion.p
-        className="text-xl font-medium mb-8 text-light"
+        className="text-xl font-medium mb-8 text-dark-blue"
         variants={fadeInUp}
         transition={{ duration: 0.5 }}
       >
