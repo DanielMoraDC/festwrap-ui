@@ -6,8 +6,10 @@ import Image from "next/image"
 import { useState } from "react"
 import { Menu, X } from "lucide-react"
 import SpotifyAuthDropdown from "./SpotifyAuthDropdown"
+import useTranslation from "next-translate/useTranslation"
 
 const MobileNavbarMenu = () => {
+  const { t } = useTranslation("common")
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const handleMenuClose = () => {
@@ -58,14 +60,14 @@ const MobileNavbarMenu = () => {
                 href="/get-started"
                 onClick={handleMenuClose}
               >
-                Get started
+                {t("nav.getStarted")}
               </NavLink>
               <NavLink
                 variant="mobile"
                 href="/about-us"
                 onClick={handleMenuClose}
               >
-                About us
+                {t("nav.aboutUs")}
               </NavLink>
               <SpotifyAuthDropdown isMobileScreen />
             </nav>

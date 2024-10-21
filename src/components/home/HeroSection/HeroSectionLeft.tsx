@@ -1,9 +1,11 @@
+import useTranslation from "next-translate/useTranslation"
 import Button from "@/components/ui/Button"
 import { fadeInStaggerRight, fadeInUp } from "@/lib/motionVariants"
 import { motion } from "framer-motion"
 import Link from "next/link"
 
 const HeroSectionLeft = () => {
+  const { t } = useTranslation("home")
   return (
     <motion.div
       className="md:w-1/2 mb-16 md:mb-0 md:pr-10 text-dark"
@@ -16,20 +18,18 @@ const HeroSectionLeft = () => {
         variants={fadeInUp}
         transition={{ duration: 0.5 }}
       >
-        Spotify playlists <span className="text-light">Generator </span>
-        using festival line-up
+        {t("heroSection.title")}
       </motion.h1>
       <motion.p
         className="text-xl font-medium mb-8 text-dark-blue"
         variants={fadeInUp}
         transition={{ duration: 0.5 }}
       >
-        Generate playlist based on the current set that each group are playing
-        in the tour using the API
+        {t("heroSection.subtitle")}
       </motion.p>
       <motion.div variants={fadeInUp} transition={{ duration: 0.5 }}>
         <Button variant="primary" as={Link} href="/get-started">
-          Get started
+          {t("heroSection.button")}
         </Button>
       </motion.div>
     </motion.div>

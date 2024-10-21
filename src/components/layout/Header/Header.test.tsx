@@ -67,9 +67,11 @@ describe("Header", () => {
 
     // check navlinks
     expect(
-      screen.getByRole("link", { name: /Get started/i })
+      screen.getByRole("link", { name: /nav.getStarted/i })
     ).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: /About us/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole("link", { name: /nav.aboutUs/i })
+    ).toBeInTheDocument()
   })
 
   test("should render sign in button when there is not session", () => {
@@ -81,9 +83,7 @@ describe("Header", () => {
 
     render(<Header />)
 
-    expect(
-      screen.getByRole("button", { name: /Login with Spotify/i })
-    ).toBeTruthy()
+    expect(screen.getByRole("button", { name: /nav.login/i })).toBeTruthy()
   })
 
   test("should render sign out button when there is session", async () => {
@@ -107,8 +107,8 @@ describe("Header", () => {
     const avatarButton = screen.getByRole("button", { name: /PG/i })
     expect(avatarButton).toBeInTheDocument()
 
-    expect(screen.getByText("Log out")).toBeInTheDocument()
-    expect(screen.getByText("Copy access token")).toBeInTheDocument()
+    expect(screen.getByText("nav.logout")).toBeInTheDocument()
+    expect(screen.getByText("nav.copyAccessToken")).toBeInTheDocument()
   })
 
   test("should copy access token to clipboard", () => {
@@ -130,7 +130,7 @@ describe("Header", () => {
     render(<Header />)
 
     const copyButton = screen.getByRole("button", {
-      name: /Copy access token/i,
+      name: /nav.copyAccessToken/i,
     })
 
     copyButton.click()

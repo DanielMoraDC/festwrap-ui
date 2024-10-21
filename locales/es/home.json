@@ -1,0 +1,24 @@
+{
+    "heroSection": {
+        "button": "Empieza",
+        "subtitle": "Genera listas de música en Spotify basado en les canciones que están tocando en el tour actual, usando la API de Setlist.fm",
+        "title": "Generador de listas en Spotify usando una lista de grupos musicales"
+    },
+    "howItWorksSection": {
+        "step1": {
+            "title": "Inicia session en tu cuenta de Spotify"
+        },
+        "step2": {
+            "title": "Busca y selecciona los artistas o grupos"
+        },
+        "step3": {
+            "title": "Comprueba y personaliza la lista sugerida"
+        },
+        "title": "Como funciona"
+    },
+    "meta": {
+        "description": "Genera listas de música en Spotify basado en les canciones que están tocando en el tour actual, usando la API de Setlist.fm",
+        "keywords": "Spotify, Setlist.fm, Generador de listas, Festivales, Música, Conciertos",
+        "title": "Inicio | Festwrap"
+    }
+}

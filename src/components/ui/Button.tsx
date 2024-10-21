@@ -23,7 +23,7 @@ const paddingClasses: Record<string, string> = {
 }
 
 const baseClasses =
-  "rounded-md font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary transition-colors duration-200"
+  "rounded-md font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dark transition-colors duration-200"
 
 // eslint-disable-next-line react/display-name
 export const Button = forwardRef(

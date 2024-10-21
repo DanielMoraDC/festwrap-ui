@@ -22,14 +22,8 @@ const AnimatedSectionTitle = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-const AnimatedSectionImage = ({
-  src,
-  alt,
-}: {
-  src: StaticImageData
-  alt: string
-}) => {
-  return <Image src={src} alt={alt} className="h-40 w-auto" />
+const AnimatedSectionImage = ({ src }: { src: StaticImageData }) => {
+  return <Image src={src} role="presentation" alt="" className="h-40 w-auto" />
 }
 
 type BackgroundShapeType = "platinum" | "dark-silver"

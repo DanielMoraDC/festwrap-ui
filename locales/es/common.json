@@ -1,0 +1,22 @@
+{
+    "footer": {
+        "allRightsReserved": "Todos los derechos reservados",
+        "madeWithLove": "Hecho con amor por",
+        "selectLanguage": "Selecciona un idioma"
+    },
+    "languages": {
+        "catalan": "Catalan",
+        "english": "Inglés",
+        "spanish": "Español"
+    },
+    "nav": {
+        "aboutUs": "Sobre nosotros",
+        "copyAccessToken": "Copiar Access Token",
+        "getStarted": "Empieza",
+        "login": "Iniciar sesion en Spotify",
+        "logout": "Cerrar sesion",
+        "privacyPolicy": "Politica de privacidad",
+        "profile": "Perfil",
+        "termsOfService": "Terminos de servicio"
+    }
+}

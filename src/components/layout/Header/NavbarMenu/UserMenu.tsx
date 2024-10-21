@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu"
+import useTranslation from "next-translate/useTranslation"
 
 type UserMenuProps = {
   session: Session
@@ -17,6 +18,8 @@ type UserMenuProps = {
 }
 
 const UserMenu = ({ session, isMobileScreen }: UserMenuProps) => {
+  const { t } = useTranslation("common")
+
   const getInitialsFromName = (name: string) => {
     const nameSplitBySpaces = name.split(" ")
     return nameSplitBySpaces.map((n) => n[0]).join("")
@@ -51,9 +54,11 @@ const UserMenu = ({ session, isMobileScreen }: UserMenuProps) => {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={copyToClipboardToken}>
-            Copy access token
+            {t("nav.copyAccessToken")}
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => signOut()}>Log out</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => signOut()}>
+            {t("nav.logout")}
+          </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

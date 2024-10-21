@@ -1,0 +1,24 @@
+{
+    "heroSection": {
+        "button": "Get Started",
+        "subtitle": "Generate Spotify playlists based on the songs that it's playing in the current tour, using the Setlist.fm API",
+        "title": "Spotify playlist generator using a list of music bands"
+    },
+    "howItWorksSection": {
+        "step1": {
+            "title": "Log in to your Spotify account"
+        },
+        "step2": {
+            "title": "Search and select the artists or groups"
+        },
+        "step3": {
+            "title": "Check and customize the suggested list"
+        },
+        "title": "How it works"
+    },
+    "meta": {
+        "description": "Generate Spotify playlists based on the songs that it's playing in the current tour, using the Setlist.fm API",
+        "keywords": "Spotify, Setlist.fm, Playlist generator, Festivals, Music, Concerts",
+        "title": "Home | Festwrap"
+    }
+}

@@ -5,8 +5,10 @@ import spotifyLockImage from "@public/spotify-lock.svg"
 import searchArtistsImage from "@public/search-artists.svg"
 import AnimatedSection from "./AnimatedSection"
 import { fadeInStaggerRight, fadeInUp } from "@/lib/motionVariants"
+import useTranslation from "next-translate/useTranslation"
 
 const HowItWorksSection = () => {
+  const { t } = useTranslation("home")
   return (
     <section className="flex flex-col py-6 px-6">
       <motion.div
@@ -17,7 +19,7 @@ const HowItWorksSection = () => {
       >
         <motion.div className="mb-8" variants={fadeInUp}>
           <Heading as="h2" size="3xl" color="dark" weight="semibold">
-            How It Works
+            {t("howItWorksSection.title")}
           </Heading>
         </motion.div>
         <div className="flex flex-col w-full md:w-70p lg:w-60p xl:w-1/2 gap-6">
@@ -25,33 +27,27 @@ const HowItWorksSection = () => {
             backgroundShape="platinum"
             floatingPosition="sm:top-10p sm:-left-5p md:-left-20p"
           >
-            <AnimatedSection.Image src={spotifyLockImage} alt="Spotify lock" />
+            <AnimatedSection.Image src={spotifyLockImage} />
             <AnimatedSection.Title>
-              Sign in on your Spotify account
+              {t("howItWorksSection.step1.title")}
             </AnimatedSection.Title>
           </AnimatedSection>
           <AnimatedSection
             backgroundShape="dark-silver"
             floatingPosition="sm:top-10p sm:right-0 md:-top-0 md:-right-20p"
           >
-            <AnimatedSection.Image
-              src={searchArtistsImage}
-              alt="Search artists"
-            />
+            <AnimatedSection.Image src={searchArtistsImage} />
             <AnimatedSection.Title>
-              Find and select the artists using Spotify search engine
+              {t("howItWorksSection.step2.title")}
             </AnimatedSection.Title>
           </AnimatedSection>
           <AnimatedSection
             backgroundShape="platinum"
             floatingPosition="sm:-top-20p sm:-left-5p md:-left-20p"
           >
-            <AnimatedSection.Image
-              src={customizePlaylistImage}
-              alt="Customize playlist"
-            />
+            <AnimatedSection.Image src={customizePlaylistImage} />
             <AnimatedSection.Title>
-              Check the generated playlist and customize it as you like
+              {t("howItWorksSection.step3.title")}
             </AnimatedSection.Title>
           </AnimatedSection>
         </div>

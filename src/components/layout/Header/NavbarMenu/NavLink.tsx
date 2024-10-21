@@ -10,11 +10,12 @@ type NavLinkProps = {
   onClick?: () => void
 }
 
-const baseClasses = "transition-all ease-in-out duration-200 font-medium"
+const baseClasses =
+  "transition-all ease-in-out duration-200 font-medium px-2 py-1"
 
 const variantClasses: Record<NavLinkVariant, string> = {
-  desktop: "text-primary hover:text-light",
-  mobile: "text-dark hover:text-primary text-xl",
+  desktop: "text-primary",
+  mobile: "text-dark text-xl",
 }
 
 const NavLink = ({
