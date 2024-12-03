@@ -18,7 +18,7 @@ Object.assign(navigator, {
   },
 })
 
-vi.mock("@/components/ui/DropdownMenu", () => ({
+vi.mock("@components/ui/DropdownMenu", () => ({
   DropdownMenu: ({ children }: { children: React.ReactNode }) => (
     <div>{children}</div>
   ),

@@ -1,12 +1,12 @@
 "use client"
 import Link from "next/link"
-import Button from "@/components/ui/Button"
-import NavLink from "@/components/layout/Header/NavbarMenu/NavLink"
+import NavLink from "@components/layout/Header/NavbarMenu/NavLink"
 import Image from "next/image"
 import { useState } from "react"
 import { Menu, X } from "lucide-react"
 import SpotifyAuthDropdown from "./SpotifyAuthDropdown"
 import useTranslation from "next-translate/useTranslation"
+import { Button } from "@components/ui/Button"
 
 const MobileNavbarMenu = () => {
   const { t } = useTranslation("common")
@@ -26,7 +26,7 @@ const MobileNavbarMenu = () => {
         <Button
           variant="ghost"
           onClick={handleMenuOpen}
-          isIconOnly
+          size="icon"
           title="Open menu"
         >
           <Menu size={24} />
@@ -48,7 +48,7 @@ const MobileNavbarMenu = () => {
                 </Link>
               </div>
               <div className="flex justify-end gap-3">
-                <Button variant="ghost" onClick={handleMenuClose} isIconOnly>
+                <Button variant="ghost" onClick={handleMenuClose} size="icon">
                   <X size={24} />
                 </Button>
               </div>

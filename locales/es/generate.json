@@ -1,0 +1,52 @@
+{
+   "meta": {
+      "description": "Genera listas de música en Spotify basado en les canciones que están tocando en el tour actual, usando la API de Setlist.fm",
+      "keywords": "Spotify, Setlist.fm, Generador de listas, Festivales, Música, Conciertos",
+      "title": "Generador | Festwrap"
+   },
+   "steps": {
+      "navigation": {
+         "finish": "Finalizar",
+         "generate": "Generar",
+         "next": "Siguiente",
+         "previous": "Anterior"
+      },
+      "step1": {
+         "description": "Selecciona para crear una nueva lista o usar una lista existente en tu cuenta",
+         "form": {
+            "createNewPlaylist": {
+               "description": "Utiliza esta opción para crear una nueva lista de reproducción en Spotify",
+               "giveAName": "Da un nombre a la lista de reproducción",
+               "namePlaceholder": "Nombre de la lista de reproducción",
+               "privatePlaylist": {
+                  "description": "La lista de reproducción será privada y solo tú podrás verla",
+                  "title": "Lista de reproducción privada"
+               },
+               "title": "Crear una nueva lista de reproducción"
+            },
+            "useExistingPlaylist": {
+               "description": "Utiliza esta opción para añadir canciones a una lista de reproducción existente",
+               "selectPlaylist": "Selecciona una lista de reproducción",
+               "title": "Usar una lista de reproducción existente"
+            }
+         },
+         "title": "Elige una opción para empezar"
+      },
+      "step2": {
+         "description": "Busca los artistas que quieres añadir a la lista de reproducción",
+         "emptyState": {
+            "description": "Empieza a buscar artistas para añadirlos a la lista de reproducción",
+            "title": "Ningún artista añadido"
+         },
+         "searchPlaceholder": "Buscar artistas",
+         "title": "Buscar los artistas"
+      },
+      "step3": {
+         "copyButton": "Copiar URL",
+         "copySuccessButton": "Copiada!",
+         "description": "Abre la lista de reproducción generada o modificada usando la URL de Spotify",
+         "playlisyGeneratedSuccessfully": "Lista de reproducción generada con éxito",
+         "title": "Copiar la URL"
+      }
+   }
+}
