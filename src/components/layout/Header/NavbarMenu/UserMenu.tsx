@@ -1,6 +1,5 @@
 import { Session } from "next-auth"
 import { signOut } from "next-auth/react"
-import Button from "@/components/ui/Button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,8 +8,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/DropdownMenu"
+} from "@components/ui/DropdownMenu"
 import useTranslation from "next-translate/useTranslation"
+import { Button } from "@components/ui/Button"
+import { useCopyToClipboard } from "@/hooks/useCopyToClipboard"
 
 type UserMenuProps = {
   session: Session
@@ -19,6 +20,7 @@ type UserMenuProps = {
 
 const UserMenu = ({ session, isMobileScreen }: UserMenuProps) => {
   const { t } = useTranslation("common")
+  const { copy } = useCopyToClipboard()
 
   const getInitialsFromName = (name: string) => {
     const nameSplitBySpaces = name.split(" ")
@@ -26,7 +28,7 @@ const UserMenu = ({ session, isMobileScreen }: UserMenuProps) => {
   }
 
   const copyToClipboardToken = () => {
-    navigator.clipboard.writeText(session?.user?.accessToken || "")
+    copy(session?.user?.accessToken || "")
   }
 
   const dropdownOverlayAlignment = isMobileScreen ? "center" : "end"
@@ -34,7 +36,7 @@ const UserMenu = ({ session, isMobileScreen }: UserMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" isIconOnly>
+        <Button variant="secondary" size="icon">
           {getInitialsFromName(session.user.name || "")}
         </Button>
       </DropdownMenuTrigger>

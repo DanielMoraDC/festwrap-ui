@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils"
 import { motion } from "framer-motion"
 import Image, { StaticImageData } from "next/image"
-import Heading from "@/components/ui/Heading"
+import Heading from "@components/ui/Heading"
 import darkSilverShapeImage from "@public/dark-silver-shape.svg"
 import platinumShapeImage from "@public/platinum-shape.svg"
 import { fadeInUp } from "@/lib/motionVariants"

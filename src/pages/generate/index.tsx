@@ -1,10 +1,9 @@
-import HeroSection from "@components/home/HeroSection/HeroSection"
-import HowItWorksSection from "@components/home/HowItWorksSection/HowItWorksSection"
 import Head from "next/head"
 import { GetStaticProps, GetStaticPropsContext } from "next"
 import getT from "next-translate/getT"
+import GeneratePlaylistStepper from "@components/generate/GeneratePlaylistStepper"
 
-type HomeTranslationProps = {
+type GenerateTranslationProps = {
   meta: {
     title: string
     description: string
@@ -12,11 +11,11 @@ type HomeTranslationProps = {
   }
 }
 
-type HomeProps = {
-  translations: HomeTranslationProps
+export type GenerateProps = {
+  translations: GenerateTranslationProps
 }
 
-export default function Home({ translations }: HomeProps) {
+export default function Generate({ translations }: GenerateProps) {
   return (
     <>
       <Head>
@@ -24,10 +23,7 @@ export default function Home({ translations }: HomeProps) {
         <meta name="description" content={translations.meta.description} />
         <meta name="keywords" content={translations.meta.keywords} />
       </Head>
-      <div className="flex flex-col gap-10">
-        <HeroSection />
-        <HowItWorksSection />
-      </div>
+      <GeneratePlaylistStepper />
     </>
   )
 }
@@ -36,9 +32,9 @@ export const getStaticProps: GetStaticProps = async (
   context: GetStaticPropsContext
 ) => {
   const { locale } = context
-  const t = await getT(locale || "en", "home")
+  const t = await getT(locale || "en", "generate")
 
-  const translations: HomeTranslationProps = {
+  const translations: GenerateTranslationProps = {
     meta: {
       title: t("meta.title"),
       description: t("meta.description"),

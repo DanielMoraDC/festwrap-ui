@@ -1,9 +1,9 @@
 import { signIn, useSession } from "next-auth/react"
 import UserMenu from "./UserMenu"
-import Button from "@/components/ui/Button"
-import Skeleton from "@/components/ui/Skeleton"
+import Skeleton from "@components/ui/Skeleton"
 import useTranslation from "next-translate/useTranslation"
 import { usePathname } from "next/navigation"
+import { Button } from "@components/ui/Button"
 
 type SpotifyAuthDropdownProps = {
   isMobileScreen?: boolean
@@ -26,11 +26,7 @@ const SpotifyAuthDropdown = ({ isMobileScreen }: SpotifyAuthDropdownProps) => {
   }
 
   if (!session) {
-    return (
-      <Button variant="primary" onClick={handleSignIn}>
-        {t("nav.login")}
-      </Button>
-    )
+    return <Button onClick={handleSignIn}>{t("nav.login")}</Button>
   }
 
   return <UserMenu session={session} isMobileScreen={isMobileScreen} />

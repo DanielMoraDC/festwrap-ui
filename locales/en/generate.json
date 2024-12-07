@@ -1,0 +1,63 @@
+{
+   "meta": {
+      "description": "Generate Spotify playlists based on the songs being played in the current tour, using the Setlist.fm API",
+      "keywords": "Spotify, Setlist.fm, Playlist generator, Festivals, Music, Concerts",
+      "title": "Generator | Festwrap"
+   },
+   "steps": {
+      "errors": {
+         "name": {
+            "required": "The playlist name is required"
+         },
+         "playlistSelected": {
+            "required": "Select a playlist"
+         },
+         "selectedBands": {
+            "required": "Select at least one artist"
+         }
+      },
+      "navigation": {
+         "finish": "Finish",
+         "generate": "Generate",
+         "next": "Next",
+         "previous": "Previous"
+      },
+      "step1": {
+         "description": "Select to create a new playlist or use an existing playlist in your account",
+         "form": {
+            "createNewPlaylist": {
+               "description": "Use this option to create a new Spotify playlist",
+               "giveAName": "Give a name to the playlist",
+               "namePlaceholder": "Playlist name",
+               "privatePlaylist": {
+                  "description": "The playlist will be private and only you will be able to see it",
+                  "title": "Private playlist"
+               },
+               "title": "Create a new playlist"
+            },
+            "useExistingPlaylist": {
+               "description": "Use this option to add songs to an existing playlist",
+               "selectPlaylist": "Select a playlist",
+               "title": "Use an existing playlist"
+            }
+         },
+         "title": "Choose an option to start"
+      },
+      "step2": {
+         "description": "Search for the artists you want to add to the playlist",
+         "emptyState": {
+            "description": "Start searching for artists to add them to the playlist",
+            "title": "No artist added"
+         },
+         "searchPlaceholder": "Search artists",
+         "title": "Search the artists"
+      },
+      "step3": {
+         "copyButton": "Copy URL",
+         "copySuccessButton": "Copied!",
+         "description": "Open the generated or modified playlist using the Spotify URL",
+         "playlisyGeneratedSuccessfully": "Playlist generated successfully",
+         "title": "Copy the URL"
+      }
+   }
+}
