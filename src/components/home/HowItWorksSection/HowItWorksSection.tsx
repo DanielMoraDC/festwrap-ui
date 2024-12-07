@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import Heading from "@/components/ui/Heading"
+import Heading from "@components/ui/Heading"
 import customizePlaylistImage from "@public/customize-playlist.svg"
 import spotifyLockImage from "@public/spotify-lock.svg"
 import searchArtistsImage from "@public/search-artists.svg"

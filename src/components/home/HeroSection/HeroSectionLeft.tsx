@@ -1,9 +1,9 @@
 import useTranslation from "next-translate/useTranslation"
-import Button from "@/components/ui/Button"
 import { fadeInStaggerRight, fadeInUp } from "@/lib/motionVariants"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import Trans from "next-translate/Trans"
+import { Button } from "@components/ui/Button"
 
 const HeroSectionLeft = () => {
   const { t } = useTranslation("home")
@@ -34,8 +34,8 @@ const HeroSectionLeft = () => {
         {t("heroSection.subtitle")}
       </motion.p>
       <motion.div variants={fadeInUp} transition={{ duration: 0.5 }}>
-        <Button variant="primary" as={Link} href="/get-started">
-          {t("heroSection.button")}
+        <Button asChild>
+          <Link href="/generate">{t("heroSection.button")}</Link>
         </Button>
       </motion.div>
     </motion.div>

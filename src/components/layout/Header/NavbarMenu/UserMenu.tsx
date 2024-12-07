@@ -1,6 +1,5 @@
 import { Session } from "next-auth"
 import { signOut } from "next-auth/react"
-import Button from "@/components/ui/Button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,8 +8,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/DropdownMenu"
+} from "@components/ui/DropdownMenu"
 import useTranslation from "next-translate/useTranslation"
+import { Button } from "@components/ui/Button"
 
 type UserMenuProps = {
   session: Session
@@ -34,7 +34,7 @@ const UserMenu = ({ session, isMobileScreen }: UserMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" isIconOnly>
+        <Button variant="secondary" size="icon">
           {getInitialsFromName(session.user.name || "")}
         </Button>
       </DropdownMenuTrigger>
