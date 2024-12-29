@@ -1,6 +1,5 @@
 import Heading from "@components/ui/Heading"
 import { Input } from "@components/ui/Input"
-import { Label } from "@components/ui/Label"
 import {
   RadioGroupButtons,
   RadioGroupButton,
@@ -9,7 +8,6 @@ import {
 } from "@components/ui/RadioGroupButtons"
 import { Switch } from "@components/ui/Switch"
 import useTranslation from "next-translate/useTranslation"
-import { useState } from "react"
 import {
   Select,
   SelectContent,
@@ -17,6 +15,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@components/ui/Select"
+import { useFormContext } from "react-hook-form"
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+} from "@/components/ui/Form"
+import ErrorMessage from "@/components/ui/ErrorMessage"
 
 const PlaylistOptions = {
   NEW: "new",
@@ -24,10 +30,11 @@ const PlaylistOptions = {
 }
 
 const PlaylistSetupForm = () => {
+  const { watch, control, formState } = useFormContext()
+  const { errors } = formState
   const { t } = useTranslation("generate")
-  const [playlistSelection, setPlaylistSelection] = useState(
-    PlaylistOptions.NEW
-  )
+
+  const playlistSelection = watch("playlistType")
 
   return (
     <>
@@ -39,80 +46,130 @@ const PlaylistSetupForm = () => {
           {t("steps.step1.description")}
         </p>
       </div>
-
-      <RadioGroupButtons
-        defaultValue={playlistSelection}
-        onChange={(value) => setPlaylistSelection(value)}
-      >
-        <RadioGroupButton value={PlaylistOptions.NEW}>
-          <RadioGroupButtonTitle>
-            {t("steps.step1.form.createNewPlaylist.title")}
-          </RadioGroupButtonTitle>
-          <RadioGroupButtonDescription>
-            {t("steps.step1.form.createNewPlaylist.description")}
-          </RadioGroupButtonDescription>
-        </RadioGroupButton>
-        <RadioGroupButton value={PlaylistOptions.EXISTING}>
-          <RadioGroupButtonTitle>
-            {t("steps.step1.form.useExistingPlaylist.title")}
-          </RadioGroupButtonTitle>
-          <RadioGroupButtonDescription>
-            {t("steps.step1.form.useExistingPlaylist.description")}
-          </RadioGroupButtonDescription>
-        </RadioGroupButton>
-      </RadioGroupButtons>
+      <FormField
+        control={control}
+        name="playlistType"
+        render={({ field }) => (
+          <RadioGroupButtons
+            defaultValue={field.value}
+            onChange={(value) => field.onChange(value)}
+          >
+            <RadioGroupButton value={PlaylistOptions.NEW}>
+              <RadioGroupButtonTitle>
+                {t("steps.step1.form.createNewPlaylist.title")}
+              </RadioGroupButtonTitle>
+              <RadioGroupButtonDescription>
+                {t("steps.step1.form.createNewPlaylist.description")}
+              </RadioGroupButtonDescription>
+            </RadioGroupButton>
+            <RadioGroupButton value={PlaylistOptions.EXISTING}>
+              <RadioGroupButtonTitle>
+                {t("steps.step1.form.useExistingPlaylist.title")}
+              </RadioGroupButtonTitle>
+              <RadioGroupButtonDescription>
+                {t("steps.step1.form.useExistingPlaylist.description")}
+              </RadioGroupButtonDescription>
+            </RadioGroupButton>
+          </RadioGroupButtons>
+        )}
+      />
       {playlistSelection === PlaylistOptions.NEW ? (
         <>
           <div className="space-y-2 mt-6">
-            <Label htmlFor="playlist-name">
-              {t("steps.step1.form.createNewPlaylist.giveAName")}
-            </Label>
-            <Input
-              id="playlist-name"
-              placeholder={t(
-                "steps.step1.form.createNewPlaylist.namePlaceholder"
+            <FormField
+              control={control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    {t("steps.step1.form.createNewPlaylist.giveAName")}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder={t(
+                        "steps.step1.form.createNewPlaylist.namePlaceholder"
+                      )}
+                      {...field}
+                    />
+                  </FormControl>
+                  {errors.name?.message && (
+                    <ErrorMessage>
+                      {t("steps.errors.name.required")}
+                    </ErrorMessage>
+                  )}
+                </FormItem>
               )}
             />
           </div>
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="private-playlist"
-              title={t(
-                "steps.step1.form.createNewPlaylist.privatePlaylist.title"
-              )}
-            />
-            <Label htmlFor="private-playlist" className="flex flex-col">
-              <span className="text-sm font-medium">
-                {t("steps.step1.form.createNewPlaylist.privatePlaylist.title")}
-              </span>
-              <span className="text-sm text-muted-foreground text-dark-blue">
-                {t(
-                  "steps.step1.form.createNewPlaylist.privatePlaylist.description"
-                )}
-              </span>
-            </Label>
-          </div>
+          <FormField
+            control={control}
+            name="isPrivate"
+            render={({ field }) => (
+              <FormItem className="flex items-center space-x-2">
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    aria-readonly
+                    title={t(
+                      "steps.step1.form.createNewPlaylist.privatePlaylist.title"
+                    )}
+                  />
+                </FormControl>
+                <FormLabel className="flex flex-col">
+                  <span className="text-sm font-medium">
+                    {t(
+                      "steps.step1.form.createNewPlaylist.privatePlaylist.title"
+                    )}
+                  </span>
+                  <span className="text-sm text-muted-foreground text-dark-blue">
+                    {t(
+                      "steps.step1.form.createNewPlaylist.privatePlaylist.description"
+                    )}
+                  </span>
+                </FormLabel>
+              </FormItem>
+            )}
+          />
         </>
       ) : (
         <div className="space-y-2 mt-6">
-          <Label htmlFor="select-existing-playlist">
-            {t("steps.step1.form.useExistingPlaylist.selectPlaylist")}
-          </Label>
-          <Select>
-            <SelectTrigger className="w-full" id="select-existing-playlist">
-              <SelectValue
-                placeholder={t(
-                  "steps.step1.form.useExistingPlaylist.selectPlaylist"
+          <FormField
+            control={control}
+            name="playlistSelected"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  {t("steps.step1.form.useExistingPlaylist.selectPlaylist")}
+                </FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue
+                        placeholder={t(
+                          "steps.step1.form.useExistingPlaylist.selectPlaylist"
+                        )}
+                      />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="1">Playlist 1</SelectItem>
+                    <SelectItem value="2">Playlist 2</SelectItem>
+                    <SelectItem value="3">Playlist 3</SelectItem>
+                    <SelectItem value="4">Playlist 4</SelectItem>
+                  </SelectContent>
+                </Select>
+                {errors.playlistSelected?.message && (
+                  <ErrorMessage>
+                    {t("steps.errors.playlistSelected.required")}
+                  </ErrorMessage>
                 )}
-              />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1">Playlist 1</SelectItem>
-              <SelectItem value="2">Playlist 2</SelectItem>
-              <SelectItem value="3">Playlist 3</SelectItem>
-              <SelectItem value="4">Playlist 4</SelectItem>
-            </SelectContent>
-          </Select>
+              </FormItem>
+            )}
+          />
         </div>
       )}
     </>
