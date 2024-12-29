@@ -3,10 +3,12 @@ import { X } from "lucide-react"
 import { SearchBandsCombobox } from "./SearchBandsCombobox"
 import ExampleItemImg from "@public/example-item-img.png"
 import EmptyListImg from "@public/empty-list.png"
-import { useState } from "react"
 import Image from "next/image"
 import { Badge } from "@components/ui/Badge"
 import useTranslation from "next-translate/useTranslation"
+import { useFormContext } from "react-hook-form"
+import { FormControl, FormField, FormItem } from "@/components/ui/Form"
+import ErrorMessage from "@/components/ui/ErrorMessage"
 
 // Mock data for artists
 const options = [
@@ -33,13 +35,16 @@ const options = [
 ]
 
 const PlaylistSearchBandsForm = () => {
+  const { control, watch, setValue, formState } = useFormContext()
+  const { errors } = formState
+
   const { t } = useTranslation("generate")
 
-  const [selectedValues, setSelectedValues] = useState<number[]>([])
+  const selectedValues: Array<number> = watch("bands", [])
 
   const removeSelectedItem = (id: number) => {
     const newSelectedItems = selectedValues.filter((item) => item !== id)
-    setSelectedValues(newSelectedItems)
+    setValue("bands", newSelectedItems)
   }
 
   const selectedItems = options.filter((option) =>
@@ -57,11 +62,26 @@ const PlaylistSearchBandsForm = () => {
         </p>
       </div>
       <div className="w-full">
-        <SearchBandsCombobox
-          options={options}
-          values={selectedValues}
-          onChange={setSelectedValues}
-          placeholder={t("steps.step2.searchPlaceholder")}
+        <FormField
+          control={control}
+          name="bands"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <SearchBandsCombobox
+                  options={options}
+                  values={field.value}
+                  onChange={field.onChange}
+                  placeholder={t("steps.step2.searchPlaceholder")}
+                />
+              </FormControl>
+              {errors.bands && (
+                <ErrorMessage>
+                  {t("steps.errors.selectedBands.required")}
+                </ErrorMessage>
+              )}
+            </FormItem>
+          )}
         />
         {selectedValues.length === 0 ? (
           <div className="mt-8 text-center text-dark-blue">

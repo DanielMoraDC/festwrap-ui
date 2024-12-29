@@ -8,6 +8,7 @@ type StepperContextType = {
   currentStep: number
   handleChangeStep: (_step: number) => void
   stepsCount: number
+  isCompletedForm?: boolean
 }
 
 const StepperContext = createContext<StepperContextType | undefined>(undefined)
@@ -24,6 +25,7 @@ type StepperProps = {
   defaultStep?: number
   onStepChange?: (_step: number) => void
   stepsCount: number
+  isCompleted?: boolean
 }
 
 export function Stepper({
@@ -32,6 +34,7 @@ export function Stepper({
   currentStep = 1,
   stepsCount = 0,
   onStepChange,
+  isCompleted,
 }: StepperProps) {
   const [internalCurrentStep, setInternalCurrentStep] = useState(defaultStep)
 
@@ -46,7 +49,12 @@ export function Stepper({
 
   return (
     <StepperContext.Provider
-      value={{ currentStep: internalCurrentStep, handleChangeStep, stepsCount }}
+      value={{
+        currentStep: internalCurrentStep,
+        handleChangeStep,
+        stepsCount,
+        isCompletedForm: isCompleted,
+      }}
     >
       <div className="flex w-full gap-2 flex-col md:flex-row">{children}</div>
     </StepperContext.Provider>
@@ -70,7 +78,8 @@ export function Step({
   title: string
   description: string
 }) {
-  const { currentStep, handleChangeStep, stepsCount } = useStepper()
+  const { currentStep, handleChangeStep, stepsCount, isCompletedForm } =
+    useStepper()
 
   const isCompleted = stepNumber < currentStep
   const isCurrent = stepNumber === currentStep
@@ -83,7 +92,7 @@ export function Step({
         className={`relative z-10 flex items-start gap-4 w-full px-4 pt-2 pb-8 hover:bg-accent rounded-lg transition-colors ${
           isCurrent ? "bg-accent" : ""
         } ${isDisabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
-        disabled={isDisabled}
+        disabled={isDisabled || isCompletedForm}
         aria-current={isCurrent ? "step" : undefined}
       >
         <div
