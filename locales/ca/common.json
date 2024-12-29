@@ -1,4 +1,11 @@
 {
+    "auth": {
+        "login": {
+            "button": "Iniciar sessió amb Spotify",
+            "description": "Necessitem connectar-te a Spotify per poder crear o modificar les teves llistes de reproducció.",
+            "title": "Iniciar sessió per continuar"
+        }
+    },
     "footer": {
         "allRightsReserved": "Tots els drets reservats",
         "selectLanguage": "Selecciona un idioma"

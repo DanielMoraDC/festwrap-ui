@@ -1,4 +1,11 @@
 {
+    "auth": {
+        "login": {
+            "button": "Sign in with Spotify",
+            "description": "We need to connect you to Spotify in order to create or modify your playlists.",
+            "title": "Sign in to continue"
+        }
+    },
     "footer": {
         "allRightsReserved": "All rights reserved",
         "selectLanguage": "Select a language"
@@ -12,7 +19,7 @@
         "aboutUs": "About us",
         "copyAccessToken": "Copy Access Token",
         "getStarted": "Get Started",
-        "login": "Log in with Spotify",
+        "login": "Sign in with Spotify",
         "logout": "Log out",
         "privacyPolicy": "Privacy Policy",
         "profile": "Profile",

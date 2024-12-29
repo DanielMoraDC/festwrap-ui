@@ -11,6 +11,7 @@ import {
 } from "@components/ui/DropdownMenu"
 import useTranslation from "next-translate/useTranslation"
 import { Button } from "@components/ui/Button"
+import { useCopyToClipboard } from "@/hooks/useCopyToClipboard"
 
 type UserMenuProps = {
   session: Session
@@ -19,6 +20,7 @@ type UserMenuProps = {
 
 const UserMenu = ({ session, isMobileScreen }: UserMenuProps) => {
   const { t } = useTranslation("common")
+  const { copy } = useCopyToClipboard()
 
   const getInitialsFromName = (name: string) => {
     const nameSplitBySpaces = name.split(" ")
@@ -26,7 +28,7 @@ const UserMenu = ({ session, isMobileScreen }: UserMenuProps) => {
   }
 
   const copyToClipboardToken = () => {
-    navigator.clipboard.writeText(session?.user?.accessToken || "")
+    copy(session?.user?.accessToken || "")
   }
 
   const dropdownOverlayAlignment = isMobileScreen ? "center" : "end"

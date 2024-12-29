@@ -5,6 +5,17 @@
       "title": "Generador | Festwrap"
    },
    "steps": {
+      "errors": {
+         "name": {
+            "required": "El nombre de la lista es obligatorio"
+         },
+         "playlistSelected": {
+            "required": "Selecciona una lista de reproducción"
+         },
+         "selectedBands": {
+            "required": "Selecciona al menos un artista"
+         }
+      },
       "navigation": {
          "finish": "Finalizar",
          "generate": "Generar",

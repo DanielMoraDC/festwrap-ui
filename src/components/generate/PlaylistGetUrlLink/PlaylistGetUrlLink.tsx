@@ -4,9 +4,13 @@ import { Input } from "@components/ui/Input"
 import useTranslation from "next-translate/useTranslation"
 import playlistReadyImage from "@public/playlist-ready.svg"
 import Image from "next/image"
+import { useCopyToClipboard } from "@/hooks/useCopyToClipboard"
+
+const URL_EXAMPLE = "https://example.com/playlist/123"
 
 const PlaylistGetUrlLink = () => {
   const { t } = useTranslation("generate")
+  const { copy, isCopied } = useCopyToClipboard()
   return (
     <>
       <div className="flex flex-col space-y-2">
@@ -29,8 +33,16 @@ const PlaylistGetUrlLink = () => {
           </div>
         </div>
         <div className="flex w-full md:w-1/2 space-x-2 mt-6">
-          <Input value="https://example.com/playlist/123" readOnly />
-          <Button variant="outline">{t("steps.step3.copyButton")}</Button>
+          <Input value={URL_EXAMPLE} readOnly />
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => copy(URL_EXAMPLE)}
+          >
+            {isCopied
+              ? t("steps.step3.copySuccessButton")
+              : t("steps.step3.copyButton")}
+          </Button>
         </div>
       </div>
     </>
