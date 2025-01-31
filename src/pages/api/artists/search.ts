@@ -29,7 +29,7 @@ function searchQuerySchema(defaultLimit: number, maxLimit: number) {
     token: z.string({
       message: '"token" should be provided as a string',
     }),
-    limit: z
+    limit: z.coerce
       .number({
         message: limitMessage,
       })

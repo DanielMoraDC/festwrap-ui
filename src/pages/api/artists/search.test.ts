@@ -30,7 +30,7 @@ describe('searchArtistHandler', () => {
 
   it.each([
     { _title: 'not a number', limit: 'invalid' },
-    { _title: 'bigger than maximum', limit: 20 },
+    { _title: 'bigger than maximum', limit: '20' },
   ])('should return 400 if limit is $_title', async ({ limit }) => {
     const request = createMockRequest({ name: 'test', token: 'test', limit });
     const response = createMockResponse();
@@ -80,7 +80,7 @@ describe('searchArtistHandler', () => {
     });
   });
 
-  it.each([{ limit: undefined }, { limit: 4 }])(
+  it.each([{ limit: undefined }, { limit: '4' }])(
     'should search with the provided arguments (limit: $limit)',
     async ({ limit }) => {
       const args: { name: string; token: string } = {
@@ -101,7 +101,7 @@ describe('searchArtistHandler', () => {
       expect(client.searchArtists).toBeCalledWith(
         args.token,
         args.name,
-        limit || defaultLimit
+        limit ? parseInt(limit, 10) : defaultLimit
       );
     }
   );
