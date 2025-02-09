@@ -2,7 +2,6 @@ import { CircleCheck } from 'lucide-react';
 import Image, { StaticImageData } from 'next/image';
 
 interface BandSearchResultProps {
-  key: number;
   name: string;
   isActive: boolean;
   isSelected: boolean;
