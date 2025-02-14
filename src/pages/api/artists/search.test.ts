@@ -1,13 +1,21 @@
-import { describe, it, vi, expect } from 'vitest';
+import { describe, it, vi, expect, beforeEach } from 'vitest';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createSearchArtistHandler, SearchArtistHandlerParams } from './search';
-import { FakeBackendClient } from '@/lib/clients/backend';
+import { FakeArtistsHTTPClient } from '@/lib/clients/artists';
 import { Artist } from '@/lib/artists';
+import { getToken } from 'next-auth/jwt';
+
+vi.mock('next-auth/jwt', () => ({
+  getToken: vi.fn(),
+}));
 
 describe('searchArtistHandler', () => {
-  function createMockRequest(
-    query: any = { name: 'Brutus', token: 'some token' }
-  ): NextApiRequest {
+  beforeEach(() => {
+    vi.resetAllMocks();
+    vi.mocked(getToken).mockResolvedValue({ accessToken: 'mocked-token' });
+  });
+
+  function createMockRequest(query: any = { name: 'Brutus' }): NextApiRequest {
     return { query } as unknown as NextApiRequest;
   }
 
@@ -20,7 +28,7 @@ describe('searchArtistHandler', () => {
 
   function createHandler(
     { client, defaultLimit, maxLimit }: SearchArtistHandlerParams = {
-      client: new FakeBackendClient(),
+      client: new FakeArtistsHTTPClient(),
       defaultLimit: 5,
       maxLimit: 10,
     }
@@ -32,7 +40,7 @@ describe('searchArtistHandler', () => {
     { _title: 'not a number', limit: 'invalid' },
     { _title: 'bigger than maximum', limit: '20' },
   ])('should return 400 if limit is $_title', async ({ limit }) => {
-    const request = createMockRequest({ name: 'test', token: 'test', limit });
+    const request = createMockRequest({ name: 'test', limit });
     const response = createMockResponse();
 
     createHandler()(request, response);
@@ -48,28 +56,14 @@ describe('searchArtistHandler', () => {
       _title: 'name is missing',
       variable: 'name',
       name: null,
-      token: 'some token',
     },
     {
       _title: 'name is not a string',
       variable: 'name',
       name: 42,
-      token: 'some token',
     },
-    {
-      _title: 'token is missing',
-      variable: 'token',
-      name: 'some name',
-      token: null,
-    },
-    {
-      _title: 'token is not a string',
-      variable: 'token',
-      name: 'some name',
-      token: 10,
-    },
-  ])('should return 400 if $_title', async ({ variable, name, token }) => {
-    const request = createMockRequest({ name: name, token: token });
+  ])('should return 400 if $_title', async ({ variable, name }) => {
+    const request = createMockRequest({ name: name });
     const response = createMockResponse();
 
     createHandler()(request, response);
@@ -83,23 +77,23 @@ describe('searchArtistHandler', () => {
   it.each([{ limit: undefined }, { limit: '4' }])(
     'should search with the provided arguments (limit: $limit)',
     async ({ limit }) => {
-      const args: { name: string; token: string } = {
+      const args: { name: string } = {
         name: 'name',
-        token: 'token',
       };
       const request = createMockRequest({ ...args, limit: limit });
-      const client = new FakeBackendClient();
+      const client = new FakeArtistsHTTPClient();
       vi.spyOn(client, 'searchArtists');
 
       const defaultLimit = 5;
-      createHandler({
+
+      await createHandler({
         client: client,
         defaultLimit: defaultLimit,
         maxLimit: 10,
       })(request, createMockResponse());
 
       expect(client.searchArtists).toBeCalledWith(
-        args.token,
+        'mocked-token',
         args.name,
         limit ? parseInt(limit, 10) : defaultLimit
       );
@@ -111,7 +105,7 @@ describe('searchArtistHandler', () => {
       new Artist('Brutus'),
       new Artist('Brutus Daughters', 'http://some_url'),
     ];
-    const client = new FakeBackendClient(retrievedArtist);
+    const client = new FakeArtistsHTTPClient(retrievedArtist);
     const response = createMockResponse();
 
     const handler = createHandler({
@@ -134,7 +128,7 @@ describe('searchArtistHandler', () => {
   });
 
   it('should return an error if search fails', async () => {
-    const client = new FakeBackendClient();
+    const client = new FakeArtistsHTTPClient();
     client.setSearchArtistError(new Error('test error'));
     const response = createMockResponse();
 
@@ -148,6 +142,19 @@ describe('searchArtistHandler', () => {
     expect(response.status).toBeCalledWith(500);
     expect(response.json).toBeCalledWith({
       message: 'Unexpected error, cannot retrieve artists',
+    });
+  });
+
+  it('should return 401 if token is not provided', async () => {
+    vi.mocked(getToken).mockResolvedValue(null);
+    const response = createMockResponse();
+
+    const handler = createHandler();
+    await handler(createMockRequest(), response);
+
+    expect(response.status).toBeCalledWith(401);
+    expect(response.json).toBeCalledWith({
+      message: 'Unauthorized',
     });
   });
 });

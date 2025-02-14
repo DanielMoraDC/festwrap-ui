@@ -5,7 +5,7 @@ export interface AuthClient {
   getHeaderName(): string;
 }
 
-export class GCPHTTPAuthClient {
+export class HTTPAuthClient {
   private httpClient: HttpClient;
   private baseUrl: string =
     'http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/identity';
@@ -63,5 +63,53 @@ export class FakeAuthClient {
 
   getHeaderName(): string {
     return this.header;
+  }
+}
+
+export interface HTTPAuthHeaderBuilder {
+  buildHeader: (_token: string) => Promise<Record<string, string>>;
+}
+
+export class BaseHTTPAuthHeaderBuilder implements HTTPAuthHeaderBuilder {
+  private gcpAuthClient?: AuthClient | undefined;
+
+  constructor(gcpAuthClient?: AuthClient) {
+    this.gcpAuthClient = gcpAuthClient;
+  }
+
+  async buildHeader(token: string): Promise<Record<string, string>> {
+    const headers: Record<string, string> = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    if (!this.gcpAuthClient) return headers;
+
+    return {
+      ...headers,
+      [this.gcpAuthClient.getHeaderName()]: `Bearer ${await this.gcpAuthClient.getToken()}`,
+    };
+  }
+}
+
+export class FakeBaseHTTPAuthHeaderBuilder implements HTTPAuthHeaderBuilder {
+  private gcpAuthToken: string | undefined;
+  private gcpAuthHeaderName: string | undefined;
+
+  constructor(gcpAuthToken?: string, gcpAuthHeaderName?: string) {
+    this.gcpAuthToken = gcpAuthToken;
+    this.gcpAuthHeaderName = gcpAuthHeaderName;
+  }
+
+  async buildHeader(token: string): Promise<Record<string, string>> {
+    const headers: Record<string, string> = token
+      ? { Authorization: `Bearer ${token}` }
+      : {};
+
+    if (!this.gcpAuthToken || !this.gcpAuthHeaderName) return headers;
+
+    return {
+      ...headers,
+      [this.gcpAuthHeaderName]: `Bearer ${this.gcpAuthToken}`,
+    };
   }
 }

@@ -1,8 +1,8 @@
 import { Artist } from '../artists';
-import { AuthClient } from './auth';
+import { HTTPAuthHeaderBuilder, BaseHTTPAuthHeaderBuilder } from './auth';
 import { HttpClient, Method } from './http';
 
-export interface BackendClient {
+export interface ArtistsClient {
   searchArtists(
     _token: string,
     _name: string,
@@ -10,15 +10,19 @@ export interface BackendClient {
   ): Promise<Artist[]>;
 }
 
-export class HTTPBackendClient implements BackendClient {
+export class ArtistsHTTPClient implements ArtistsClient {
   private url: string;
-  private authClient?: AuthClient | undefined;
   private httpClient: HttpClient;
+  private httpAuthHeaderBuilder: HTTPAuthHeaderBuilder;
 
-  constructor(url: string, httpClient: HttpClient, authClient?: AuthClient) {
+  constructor(
+    url: string,
+    httpClient: HttpClient,
+    httpAuthHeaderBuilder: BaseHTTPAuthHeaderBuilder
+  ) {
     this.url = url;
     this.httpClient = httpClient;
-    this.authClient = authClient;
+    this.httpAuthHeaderBuilder = httpAuthHeaderBuilder;
   }
 
   async searchArtists(
@@ -26,14 +30,13 @@ export class HTTPBackendClient implements BackendClient {
     name: string,
     limit: number
   ): Promise<Artist[]> {
-    const authHeader = await this.buildAuthHeader();
-    const backendAuthHeader = { Authorization: `Bearer ${token}` };
+    const authHeader = await this.httpAuthHeaderBuilder.buildHeader(token);
     return this.httpClient
       .send({
         url: `${this.url}/artists/search`,
         method: Method.Get,
         params: { name, limit },
-        headers: { ...authHeader, ...backendAuthHeader },
+        headers: authHeader,
       })
       .then((response) =>
         response.data.map(
@@ -41,20 +44,9 @@ export class HTTPBackendClient implements BackendClient {
         )
       );
   }
-
-  private async buildAuthHeader(): Promise<Record<string, string>> {
-    if (this.authClient === undefined) {
-      return {};
-    }
-
-    const authToken = await this.authClient.getToken();
-    return {
-      [this.authClient.getHeaderName()]: `Bearer ${authToken}`,
-    };
-  }
 }
 
-export class FakeBackendClient implements BackendClient {
+export class FakeArtistsHTTPClient implements ArtistsClient {
   private searchArtistError: Error | undefined = undefined;
   private searchArtistResult: Artist[];
 
