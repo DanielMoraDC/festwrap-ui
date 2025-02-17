@@ -2,38 +2,27 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronsUpDownIcon, SearchIcon, XIcon } from 'lucide-react';
-import { StaticImageData } from 'next/image';
 import BandSearchResult from './BandSearchResult';
-
-type SearchedArtist = {
-  id: number;
-  title: string;
-  icon: StaticImageData;
-};
+import { BandSearcher, SearchedBand } from './BandSearcher';
 
 type SearchComboboxProps = {
-  options: SearchedArtist[];
-  values: number[];
-  onChange: (_values: number[]) => void;
-  placeholder?: string;
+  bandSearcher: BandSearcher;
+  onSelectionChange: (_values: SearchedBand[]) => void;
+  searchPlaceholder: string;
 };
 
 export function SearchBandsCombobox({
-  options,
-  values,
-  onChange,
-  placeholder,
+  bandSearcher,
+  onSelectionChange,
+  searchPlaceholder,
 }: SearchComboboxProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<SearchedArtist[]>([]);
-  const [search, setSearch] = useState('');
+  const [selectedBands, setSelectedBands] = useState<SearchedBand[]>([]);
+  const [searchedBands, setSearchedBands] = useState<SearchedBand[]>([]);
+  const [searchInput, setSearchInput] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const [activeIndex, setActiveIndex] = useState(-1);
-
-  const filteredItems = options.filter((item) =>
-    item.title.toLowerCase().includes(search.toLowerCase())
-  );
 
   const handleOutsideClick = (event: MouseEvent) => {
     if (
@@ -50,24 +39,26 @@ export function SearchBandsCombobox({
     setIsOpen((prev) => !prev);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+    const searchedBands = await bandSearcher.searchArtists(e.target.value);
+    setSearchedBands(searchedBands);
     setIsOpen(true);
     setActiveIndex(-1);
   };
 
-  const handleItemSelect = (item: SearchedArtist) => {
-    const newSelectedItems = selectedItems.some(
-      (selectedItem) => selectedItem.id === item.id
+  const handleItemSelect = (band: SearchedBand) => {
+    const newSelection = selectedBands.some(
+      (selectedBand) => selectedBand.id === band.id
     )
-      ? selectedItems.filter((selectedItem) => selectedItem.id !== item.id)
-      : [...selectedItems, item];
+      ? selectedBands.filter((selectedBand) => selectedBand.id !== band.id)
+      : [...selectedBands, band];
 
-    setSelectedItems(newSelectedItems);
-    onChange(newSelectedItems.map((item) => item.id));
+    setSelectedBands(newSelection);
+    onSelectionChange(newSelection);
 
     // Ensure closure after all updates
-    setSearch('');
+    setSearchInput('');
     setTimeout(() => setIsOpen(false), 0);
     inputRef.current?.focus();
   };
@@ -79,7 +70,7 @@ export function SearchBandsCombobox({
         setIsOpen(true);
       } else {
         setActiveIndex((prev) =>
-          prev < filteredItems.length - 1 ? prev + 1 : prev
+          prev < searchedBands.length - 1 ? prev + 1 : prev
         );
       }
     } else if (e.key === 'ArrowUp') {
@@ -87,7 +78,7 @@ export function SearchBandsCombobox({
       setActiveIndex((prev) => (prev > 0 ? prev - 1 : prev));
     } else if (e.key === 'Enter' && activeIndex >= 0) {
       e.preventDefault();
-      handleItemSelect(filteredItems[activeIndex]);
+      handleItemSelect(searchedBands[activeIndex]);
     } else if (e.key === 'Escape') {
       setIsOpen(false);
     } else if (e.key === 'Tab' && isOpen) {
@@ -96,16 +87,9 @@ export function SearchBandsCombobox({
   };
 
   const clearSearch = () => {
-    setSearch('');
+    setSearchInput('');
     inputRef.current?.focus();
   };
-
-  useEffect(() => {
-    const selectedOptions = options.filter((option) =>
-      values.includes(option.id)
-    );
-    setSelectedItems(selectedOptions);
-  }, [options, values]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleOutsideClick);
@@ -135,16 +119,16 @@ export function SearchBandsCombobox({
           <input
             ref={inputRef}
             type="text"
-            value={search}
+            value={searchInput}
             onChange={handleInputChange}
             onMouseDown={handleInputToggle}
             className="w-full rounded-full bg-white px-12 py-3 border-2 border-secondary placeholder:text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-            placeholder={placeholder}
+            placeholder={searchPlaceholder}
             aria-haspopup="listbox"
             aria-autocomplete="list"
             aria-controls="combobox-items"
           />
-          {search && (
+          {searchInput && (
             <button
               className="absolute right-12 top-1/2 transform -translate-y-1/2"
               onClick={clearSearch}
@@ -168,15 +152,15 @@ export function SearchBandsCombobox({
             role="listbox"
             className="absolute z-10 w-full mt-2 bg-white border border-secondary rounded-xl shadow-lg max-h-60 overflow-auto py-3"
           >
-            {filteredItems.length === 0 ? (
+            {searchedBands.length === 0 ? (
               <li className="px-4 py-2 text-secondary">No results found.</li>
             ) : (
-              filteredItems.map((item, index) => (
+              searchedBands.map((item, index) => (
                 <BandSearchResult
                   key={item.id}
                   name={item.title}
                   isActive={index === activeIndex}
-                  isSelected={selectedItems.some(
+                  isSelected={selectedBands.some(
                     (selectedItem) => selectedItem.id === item.id
                   )}
                   handleItemSelect={() => handleItemSelect(item)}
