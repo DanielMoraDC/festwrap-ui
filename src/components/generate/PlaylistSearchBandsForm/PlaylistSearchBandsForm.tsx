@@ -1,55 +1,27 @@
 import Heading from '@components/ui/Heading';
 import { X } from 'lucide-react';
 import { SearchBandsCombobox } from './SearchBandsCombobox';
-import ExampleItemImg from '@public/example-item-img.png';
 import EmptyListImg from '@public/empty-list.png';
 import Image from 'next/image';
 import { Badge } from '@components/ui/Badge';
 import useTranslation from 'next-translate/useTranslation';
-import { useFormContext } from 'react-hook-form';
-import { FormControl, FormField, FormItem } from '@/components/ui/Form';
-import ErrorMessage from '@/components/ui/ErrorMessage';
+import { useState } from 'react';
+import { BandSearcher, SearchedBand } from './BandSearcher';
 
-// Mock data for artists
-const options = [
-  {
-    id: 1,
-    title: 'Holding Absence',
-    icon: ExampleItemImg,
-  },
-  {
-    id: 2,
-    title: 'Hollywood Undead',
-    icon: ExampleItemImg,
-  },
-  {
-    id: 3,
-    title: 'Bring Me The Horizon',
-    icon: ExampleItemImg,
-  },
-  {
-    id: 4,
-    title: 'Architects',
-    icon: ExampleItemImg,
-  },
-];
-
-const PlaylistSearchBandsForm = () => {
-  const { control, watch, setValue, formState } = useFormContext();
-  const { errors } = formState;
-
+const PlaylistSearchBandsForm = ({
+  bandSearcher,
+}: {
+  bandSearcher: BandSearcher;
+}) => {
   const { t } = useTranslation('generate');
+  const [selectedBands, setSelectedBands] = useState<SearchedBand[]>([]);
 
-  const selectedValues: Array<number> = watch('bands', []);
-
-  const removeSelectedItem = (id: number) => {
-    const newSelectedItems = selectedValues.filter((item) => item !== id);
-    setValue('bands', newSelectedItems);
+  const removeSelectedItem = (bandToRemove: SearchedBand) => {
+    const newSelection = selectedBands.filter(
+      (band) => band.id !== bandToRemove.id
+    );
+    setSelectedBands(newSelection);
   };
-
-  const selectedItems = options.filter((option) =>
-    selectedValues.includes(option.id)
-  );
 
   return (
     <>
@@ -62,28 +34,12 @@ const PlaylistSearchBandsForm = () => {
         </p>
       </div>
       <div className="w-full">
-        <FormField
-          control={control}
-          name="bands"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <SearchBandsCombobox
-                  options={options}
-                  values={field.value}
-                  onChange={field.onChange}
-                  placeholder={t('steps.step2.searchPlaceholder')}
-                />
-              </FormControl>
-              {errors.bands && (
-                <ErrorMessage>
-                  {t('steps.errors.selectedBands.required')}
-                </ErrorMessage>
-              )}
-            </FormItem>
-          )}
+        <SearchBandsCombobox
+          bandSearcher={bandSearcher}
+          onSelectionChange={setSelectedBands}
+          searchPlaceholder={t('steps.step2.searchPlaceholder')}
         />
-        {selectedValues.length === 0 ? (
+        {selectedBands.length === 0 ? (
           <div className="mt-8 text-center text-dark-blue">
             <div className="flex justify-center mb-4">
               <Image
@@ -99,16 +55,16 @@ const PlaylistSearchBandsForm = () => {
           </div>
         ) : (
           <div className="mt-4 flex flex-wrap gap-2">
-            {selectedItems.map((item) => (
+            {selectedBands.map((band) => (
               <Badge
-                key={item.id}
+                key={band.id}
                 variant="secondary"
                 size="lg"
                 className="flex items-center gap-1 px-3 py-1"
               >
-                {item.title}
+                {band.title}
                 <button
-                  onClick={() => removeSelectedItem(item.id)}
+                  onClick={() => removeSelectedItem(band)}
                   className="ml-1 hover:bg-slate-100 rounded-full hover:text-primary text-dark-blue"
                   type="button"
                 >

@@ -8,6 +8,7 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import GeneratePlaylistPage, { GenerateProps } from '@/pages/generate';
+import { BandSearcherStub } from '@/components/generate/PlaylistSearchBandsForm/BandSearcher';
 
 vi.mock('next/image', () => ({
   __esModule: true,
@@ -26,6 +27,10 @@ const staticTranslations: GenerateProps = {
       keywords: 'Generate a playlist keywords',
     },
   },
+  bandSearcher: new BandSearcherStub([
+    { id: 'sftp', title: 'Stray from the Path', icon: { src: 'http://some_image.com', height: 20, width: 20 } },
+    { id: 'styg', title: 'Stick to your Guns' },
+  ])
 };
 
 userEvent.setup();
@@ -188,18 +193,18 @@ describe('GeneratePlaylistPage', () => {
     const searchInput = screen.getByPlaceholderText(
       'steps.step2.searchPlaceholder'
     );
-    await userEvent.type(searchInput, 'Holding');
+    await userEvent.type(searchInput, 'Strick to Your');
 
     const itemOption = screen.getByRole('option', {
-      name: /Holding Absence/i,
+      name: /Stick to your Guns/i,
     });
     await userEvent.click(itemOption);
 
-    const selectedItem = screen.getByText(/Holding Absence/i);
+    const selectedItem = screen.getByText(/Stick to your Guns/i);
     expect(selectedItem).toBeInTheDocument();
 
     const generateButton = screen.getByRole('button', {
-      name: /steps.navigation.generate/i,
+      name: /steps.navigation.next/i,
     });
     await userEvent.click(generateButton);
 
