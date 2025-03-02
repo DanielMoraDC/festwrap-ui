@@ -18,7 +18,7 @@ type ResponsePlaylist = {
   isPublic: boolean;
 };
 
-type ResponseData = {
+export type ResponseData = {
   message: string;
   playlists?: ResponsePlaylist[];
 };
