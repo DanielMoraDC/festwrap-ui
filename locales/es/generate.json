@@ -37,6 +37,13 @@
                 },
                 "useExistingPlaylist": {
                     "description": "Utiliza esta opción para añadir canciones a una de tus listas de reproducción ya existentes.",
+                    "playlistSelector": {
+                        "loading": "Cargando listas de reproducción...",
+                        "noResults": "No se encontraron listas de reproducción",
+                        "placeholder": "Selecciona una lista de reproducción",
+                        "searchPlaceholder": "Busca listas de reproducción",
+                        "title": "Selecciona una lista de reproducción"
+                    },
                     "selectPlaylist": "Selecciona una lista de reproducción",
                     "title": "Usar una lista de reproducción existente"
                 }

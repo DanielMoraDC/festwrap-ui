@@ -37,7 +37,13 @@
                 },
                 "useExistingPlaylist": {
                     "description": "Use this option to add songs to one of your existing playlists.",
-                    "selectPlaylist": "Select a playlist",
+                    "playlistSelector": {
+                        "loading": "Loading playlists...",
+                        "noResults": "No playlists found",
+                        "placeholder": "Select a playlist",
+                        "searchPlaceholder": "Search playlists",
+                        "title": "Select a playlist"
+                    },
                     "title": "Use an existing playlist"
                 }
             },

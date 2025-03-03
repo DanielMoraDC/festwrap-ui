@@ -11,20 +11,20 @@ import { useFormContext } from 'react-hook-form';
 import { useExistingPlaylists } from './useExistingPlaylists';
 import { useState } from 'react';
 
-const getEmptyMessage = (
+const getEmptyMessageKeyTranslation = (
   loading: boolean,
   playlists: any[],
   searchValue: string
 ) => {
   if (loading) {
-    return 'Loading...';
+    return 'steps.step1.form.useExistingPlaylist.playlistSelector.loading';
   }
 
   if (playlists.length === 0 && searchValue.trim() !== '') {
-    return 'No playlists found';
+    return 'steps.step1.form.useExistingPlaylist.playlistSelector.noResults';
   }
 
-  return 'Search for a playlist';
+  return 'steps.step1.form.useExistingPlaylist.playlistSelector.searchPlaceholder';
 };
 
 const ExistingPlaylistsSelector = () => {
@@ -44,7 +44,11 @@ const ExistingPlaylistsSelector = () => {
     label: playlist.name,
   }));
 
-  const emptyMessage = getEmptyMessage(loading, playlists, searchValue);
+  const emptyMessageKeyTranslation = getEmptyMessageKeyTranslation(
+    loading,
+    playlists,
+    searchValue
+  );
 
   return (
     <FormField
@@ -53,7 +57,7 @@ const ExistingPlaylistsSelector = () => {
       render={({ field }) => (
         <FormItem>
           <FormLabel>
-            {t('steps.step1.form.useExistingPlaylist.selectPlaylist')}
+            {t('steps.step1.form.useExistingPlaylist.playlistSelector.title')}
           </FormLabel>
           <SelectSearch
             items={playlistItems}
@@ -62,8 +66,14 @@ const ExistingPlaylistsSelector = () => {
             onSearch={debouncedSearch}
           >
             <SelectSearchRoot>
-              <SelectSearchTrigger />
-              <SelectSearchContent emptyMessage={emptyMessage} />
+              <SelectSearchTrigger
+                placeholder={t(
+                  'steps.step1.form.useExistingPlaylist.playlistSelector.placeholder'
+                )}
+              />
+              <SelectSearchContent
+                emptyMessage={t(emptyMessageKeyTranslation)}
+              />
             </SelectSearchRoot>
           </SelectSearch>
         </FormItem>
