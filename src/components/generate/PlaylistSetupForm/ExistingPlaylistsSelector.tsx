@@ -10,6 +10,7 @@ import useTranslation from 'next-translate/useTranslation';
 import { useFormContext } from 'react-hook-form';
 import { useExistingPlaylists } from './useExistingPlaylists';
 import { useState } from 'react';
+import ErrorMessage from '@/components/ui/ErrorMessage';
 
 const getEmptyMessageKeyTranslation = (
   loading: boolean,
@@ -32,7 +33,8 @@ const ExistingPlaylistsSelector = () => {
   const [searchValue, setSearchValue] = useState('');
   const { playlists, search, loading } = useExistingPlaylists();
 
-  const { control } = useFormContext();
+  const { control, formState } = useFormContext();
+  const { errors } = formState;
 
   const debouncedSearch = useDebouncedCallback((searchTerm: string) => {
     search(searchTerm);
@@ -76,6 +78,11 @@ const ExistingPlaylistsSelector = () => {
               />
             </SelectSearchRoot>
           </SelectSearch>
+          {errors.playlistSelected?.message && (
+            <ErrorMessage>
+              {t('steps.errors.playlistSelected.required')}
+            </ErrorMessage>
+          )}
         </FormItem>
       )}
     />
