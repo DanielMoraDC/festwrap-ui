@@ -8,6 +8,8 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import GeneratePlaylistPage, { GenerateProps } from '@/pages/generate';
+import { ReactNode } from 'react';
+import { ServiceProvider } from '@/contexts/ServiceContext';
 
 vi.mock('next/image', () => ({
   __esModule: true,
@@ -42,9 +44,23 @@ const clickToNextButton = async () => {
   await userEvent.click(nextButton);
 };
 
+const playlistsService = {
+  searchPlaylists: vi.fn(),
+};
+
+const MockServiceProvider = ({ children }: { children: ReactNode }) => {
+  return (
+    <ServiceProvider value={{ playlistsService }}>{children}</ServiceProvider>
+  );
+};
+
+const customRenderWithProviders = (ui: ReactNode) => {
+  return render(ui, { wrapper: MockServiceProvider });
+};
+
 describe('GeneratePlaylistPage', () => {
   it('should render the form with the first step displayed', async () => {
-    render(<GeneratePlaylistPage {...staticTranslations} />);
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     const firstNavigationStepButton = screen.getByRole('button', {
       name: /steps.step1.title/i,
@@ -74,7 +90,7 @@ describe('GeneratePlaylistPage', () => {
   });
 
   it('should display the error message when the "Create new playlist" option is selected and the playlist name is not filled', async () => {
-    render(<GeneratePlaylistPage {...staticTranslations} />);
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     const createNewPlaylistRadio = screen.getByRole('radio', {
       name: /steps.step1.form.createNewPlaylist.title/i,
@@ -96,7 +112,7 @@ describe('GeneratePlaylistPage', () => {
   });
 
   it('should display the error message when the "Use existing playlist" option is selected and the playlist is not selected', async () => {
-    render(<GeneratePlaylistPage {...staticTranslations} />);
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     const useExistingPlaylistRadio = screen.getByRole('radio', {
       name: /steps.step1.form.useExistingPlaylist.title/i,
@@ -113,7 +129,7 @@ describe('GeneratePlaylistPage', () => {
   });
 
   it('should fill the form and navigate to the next step when clicking the next button', async () => {
-    render(<GeneratePlaylistPage {...staticTranslations} />);
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     const createNewPlaylistRadio = screen.getByRole('radio', {
       name: /steps.step1.form.createNewPlaylist.title/i,
@@ -141,7 +157,7 @@ describe('GeneratePlaylistPage', () => {
   });
 
   it('should navigate to the previous step when clicking the previous button', async () => {
-    render(<GeneratePlaylistPage {...staticTranslations} />);
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     const playlistNameInput = screen.getByLabelText(
       /steps.step1.form.createNewPlaylist.giveAName/i
@@ -169,7 +185,7 @@ describe('GeneratePlaylistPage', () => {
   });
 
   it('should navigate to the last step when filling the form and clicking the next button', async () => {
-    render(<GeneratePlaylistPage {...staticTranslations} />);
+    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     const playlistNameInput = screen.getByLabelText(
       /steps.step1.form.createNewPlaylist.giveAName/i

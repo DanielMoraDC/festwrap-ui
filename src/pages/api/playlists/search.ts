@@ -13,12 +13,13 @@ export type SearchPlaylistHandlerParams = {
 };
 
 type ResponsePlaylist = {
+  id: string;
   name: string;
   description: string | undefined;
   isPublic: boolean;
 };
 
-type ResponseData = {
+export type ResponseData = {
   message: string;
   playlists?: ResponsePlaylist[];
 };

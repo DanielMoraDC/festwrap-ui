@@ -37,7 +37,13 @@
                 },
                 "useExistingPlaylist": {
                     "description": "Utilitza aquesta opció per afegir cançons a una de les teves llistes de reproducció ja existent",
-                    "selectPlaylist": "Selecciona una llista de reproducció",
+                    "playlistSelector": {
+                        "loading": "Carregant llistes de reproducció...",
+                        "noResults": "No s'han trobat llistes de reproducció",
+                        "placeholder": "Selecciona una llista de reproducció",
+                        "searchPlaceholder": "Cerca llistes de reproducció",
+                        "title": "Selecciona una llista de reproducció"
+                    },
                     "title": "Utilitzar una llista existent"
                 }
             },

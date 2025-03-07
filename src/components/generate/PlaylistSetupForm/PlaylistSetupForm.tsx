@@ -8,13 +8,6 @@ import {
 } from '@components/ui/RadioGroupButtons';
 import { Switch } from '@components/ui/Switch';
 import useTranslation from 'next-translate/useTranslation';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@components/ui/Select';
 import { useFormContext } from 'react-hook-form';
 import {
   FormField,
@@ -24,10 +17,12 @@ import {
 } from '@/components/ui/Form';
 import ErrorMessage from '@/components/ui/ErrorMessage';
 import { PlaylistType } from '@/types/Playlist';
+import ExistingPlaylistsSelector from './ExistingPlaylistsSelector';
 
 const PlaylistSetupForm = () => {
   const { watch, control, formState } = useFormContext();
   const { errors } = formState;
+
   const { t } = useTranslation('generate');
 
   const playlistSelection = watch('playlistType');
@@ -130,42 +125,7 @@ const PlaylistSetupForm = () => {
         </>
       ) : (
         <div className="space-y-2 mt-6">
-          <FormField
-            control={control}
-            name="playlistSelected"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  {t('steps.step1.form.useExistingPlaylist.selectPlaylist')}
-                </FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger className="w-full">
-                      <SelectValue
-                        placeholder={t(
-                          'steps.step1.form.useExistingPlaylist.selectPlaylist'
-                        )}
-                      />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="1">Playlist 1</SelectItem>
-                    <SelectItem value="2">Playlist 2</SelectItem>
-                    <SelectItem value="3">Playlist 3</SelectItem>
-                    <SelectItem value="4">Playlist 4</SelectItem>
-                  </SelectContent>
-                </Select>
-                {errors.playlistSelected?.message && (
-                  <ErrorMessage>
-                    {t('steps.errors.playlistSelected.required')}
-                  </ErrorMessage>
-                )}
-              </FormItem>
-            )}
-          />
+          <ExistingPlaylistsSelector />
         </div>
       )}
     </>

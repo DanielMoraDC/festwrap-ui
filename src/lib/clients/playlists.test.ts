@@ -21,11 +21,17 @@ describe('PlaylistsHTTPClient', () => {
     response = {
       data: [
         {
+          id: '1',
           name: 'Chill Vibes',
           description: 'Some description',
           isPublic: true,
         },
-        { name: 'Chill Hits', description: 'Some description', isPublic: true },
+        {
+          id: '2',
+          name: 'Chill Hits',
+          description: 'Some description',
+          isPublic: true,
+        },
       ],
       status: 200,
     };
@@ -58,8 +64,8 @@ describe('PlaylistsHTTPClient', () => {
     const actual = await client.searchPlaylists(token, name, limit);
 
     const expected = [
-      new Playlist('Chill Vibes', true, 'Some description'),
-      new Playlist('Chill Hits', true, 'Some description'),
+      new Playlist('1', 'Chill Vibes', true, 'Some description'),
+      new Playlist('2', 'Chill Hits', true, 'Some description'),
     ];
     expect(actual).toEqual(expected);
   });
