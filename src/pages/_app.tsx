@@ -3,6 +3,7 @@ import { Poppins } from 'next/font/google';
 import '../styles/globals.css';
 import SessionWrapper from '@components/SessionWrapper';
 import RootLayout from '@components/layout/RootLayout';
+import { ServiceProvider } from '@/contexts/ServiceContext';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -12,11 +13,13 @@ const poppins = Poppins({
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <SessionWrapper>
-      <main className={poppins.className}>
-        <RootLayout>
-          <Component {...pageProps} />
-        </RootLayout>
-      </main>
+      <ServiceProvider>
+        <main className={poppins.className}>
+          <RootLayout>
+            <Component {...pageProps} />
+          </RootLayout>
+        </main>
+      </ServiceProvider>
     </SessionWrapper>
   );
 }
