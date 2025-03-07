@@ -1,25 +1,20 @@
-import { FetchService } from '@/services/fetchService';
-import { PlaylistsService } from '@/services/playlistsService';
+import { IPlaylistsService } from '@/services/playlistsService';
 import { createContext, useContext, ReactNode } from 'react';
 
-const fetchService = new FetchService();
-const playlistsService = new PlaylistsService(fetchService);
-
-interface ServiceContextType {
-  playlistsService: PlaylistsService;
+export interface ServiceContextType {
+  playlistsService: IPlaylistsService;
 }
 
 const ServiceContext = createContext<ServiceContextType | undefined>(undefined);
 
-const services: ServiceContextType = {
-  playlistsService,
+type ServiceProviderProps = {
+  children: ReactNode;
+  value: ServiceContextType;
 };
 
-export const ServiceProvider = ({ children }: { children: ReactNode }) => {
+export const ServiceProvider = ({ children, value }: ServiceProviderProps) => {
   return (
-    <ServiceContext.Provider value={services}>
-      {children}
-    </ServiceContext.Provider>
+    <ServiceContext.Provider value={value}>{children}</ServiceContext.Provider>
   );
 };
 
