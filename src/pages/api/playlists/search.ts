@@ -13,6 +13,7 @@ export type SearchPlaylistHandlerParams = {
 };
 
 type ResponsePlaylist = {
+  id: string;
   name: string;
   description: string | undefined;
   isPublic: boolean;

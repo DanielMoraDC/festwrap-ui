@@ -41,7 +41,12 @@ export class PlaylistsHTTPClient implements PlaylistsClient {
       .then((response) =>
         response.data.map(
           (playlist: any) =>
-            new Playlist(playlist.name, playlist.isPublic, playlist.description)
+            new Playlist(
+              playlist.id,
+              playlist.name,
+              playlist.isPublic,
+              playlist.description
+            )
         )
       );
   }

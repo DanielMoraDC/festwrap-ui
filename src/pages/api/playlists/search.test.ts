@@ -107,8 +107,8 @@ describe('createSearchPlaylistHandler', () => {
 
   it('should return backend client results', async () => {
     const retrievedPlaylists = [
-      new Playlist('Chill Vibes', true, 'Relaxing music'),
-      new Playlist('Workout Hits', false, 'High energy music'),
+      new Playlist('1', 'Chill Vibes', true, 'Relaxing music'),
+      new Playlist('2', 'Workout Hits', false, 'High energy music'),
     ];
     const client = new PlaylistsClientStub(retrievedPlaylists);
     const response = createMockResponse();
@@ -122,8 +122,14 @@ describe('createSearchPlaylistHandler', () => {
 
     const expected = {
       playlists: [
-        { name: 'Chill Vibes', description: 'Relaxing music', isPublic: true },
         {
+          id: '1',
+          name: 'Chill Vibes',
+          description: 'Relaxing music',
+          isPublic: true,
+        },
+        {
+          id: '2',
           name: 'Workout Hits',
           description: 'High energy music',
           isPublic: false,

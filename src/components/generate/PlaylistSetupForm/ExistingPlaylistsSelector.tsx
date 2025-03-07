@@ -42,7 +42,7 @@ const ExistingPlaylistsSelector = () => {
   }, 500);
 
   const playlistItems = playlists?.map((playlist) => ({
-    value: playlist.name,
+    value: playlist.id,
     label: playlist.name,
   }));
 
