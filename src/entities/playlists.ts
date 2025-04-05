@@ -1,7 +1,21 @@
 export type CreateNewPlaylistDTO = {
-  name: string;
-  isPrivate: boolean;
-  artists: string[];
+  playlist: {
+    name: string;
+    description?: string | undefined;
+    isPrivate: boolean;
+  };
+  artists: Array<{
+    name: string;
+  }>;
+};
+
+export type CreateNewPlaylistStatusType =
+  | 'CREATED_WITHOUT_ISSUES'
+  | 'CREATED_MISSING_ARTISTS';
+
+export type CreateNewPlaylistResponseDTO = {
+  id: string;
+  status: CreateNewPlaylistStatusType;
 };
 
 export type UpdatePlaylistDTO = {

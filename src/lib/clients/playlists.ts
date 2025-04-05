@@ -1,4 +1,8 @@
-import { Playlist } from '@/entities/playlists';
+import {
+  CreateNewPlaylistDTO,
+  CreateNewPlaylistResponseDTO,
+  Playlist,
+} from '@/entities/playlists';
 import { AuthHeaderBuilder, BaseAuthHeaderBuilder } from './auth';
 import { HttpClient, Method } from './http';
 
@@ -8,6 +12,10 @@ export interface PlaylistsClient {
     _name: string,
     _limit: number
   ): Promise<Playlist[]>;
+  createPlaylist(
+    _token: string,
+    _playlist: CreateNewPlaylistDTO
+  ): Promise<CreateNewPlaylistResponseDTO>;
 }
 
 export class PlaylistsHTTPClient implements PlaylistsClient {
@@ -50,16 +58,54 @@ export class PlaylistsHTTPClient implements PlaylistsClient {
         )
       );
   }
+
+  async createPlaylist(
+    token: string,
+    playlist: CreateNewPlaylistDTO
+  ): Promise<CreateNewPlaylistResponseDTO> {
+    const authHeader = await this.httpAuthHeaderBuilder.buildHeader(token);
+    return this.httpClient
+      .send({
+        url: `${this.url}/playlists`,
+        method: Method.Post,
+        data: playlist,
+        headers: authHeader,
+      })
+      .then((response: any) => {
+        if (response.status === 201) {
+          return {
+            id: response.data.playlist.id,
+            status: 'CREATED_WITHOUT_ISSUES',
+          };
+        }
+        return {
+          id: response.data.playlist.id,
+          status: 'CREATED_MISSING_ARTISTS',
+        };
+      });
+  }
 }
 
 export class PlaylistsClientStub implements PlaylistsClient {
   private searchPlaylistResult: Playlist[];
+  private createPlaylistResult: CreateNewPlaylistResponseDTO;
 
-  constructor(result: Playlist[] = []) {
-    this.searchPlaylistResult = result;
+  constructor(
+    searchPlaylistResult: Playlist[] = [],
+    createPlaylistResult: CreateNewPlaylistResponseDTO = {
+      id: '1',
+      status: 'CREATED_WITHOUT_ISSUES',
+    }
+  ) {
+    this.searchPlaylistResult = searchPlaylistResult;
+    this.createPlaylistResult = createPlaylistResult;
   }
 
   async searchPlaylists(..._: any[]): Promise<Playlist[]> {
     return this.searchPlaylistResult;
+  }
+
+  async createPlaylist(..._: any[]): Promise<any> {
+    return this.createPlaylistResult;
   }
 }

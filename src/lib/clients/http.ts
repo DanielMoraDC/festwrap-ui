@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 import axios from 'axios';
 
 export enum Method {
-  Get = 'GET', // eslint-disable-line no-unused-vars
+  Get = 'GET',
+  Post = 'POST',
 }
 
 export interface HttpRequest {
@@ -9,6 +11,7 @@ export interface HttpRequest {
   method: Method;
   params?: Record<string, any>;
   headers?: Record<string, string>;
+  data?: Record<string, any>;
 }
 
 export interface HttpClient {
@@ -26,12 +29,14 @@ export class HttpBaseClient implements HttpClient {
     method,
     params,
     headers,
+    data,
   }: HttpRequest): Promise<HttpResponse> {
     return axios({
       url,
       method,
       params,
       headers,
+      data,
     }).then((response) => {
       return {
         data: response.data,
