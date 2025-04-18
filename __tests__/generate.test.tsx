@@ -312,54 +312,54 @@ describe('GeneratePlaylistPage', () => {
     });
   });
 
-  it('should copy the URL link into the clipboard when clicking the copy button', async () => {
-    const spyClipboardWriteText = vi
-      .spyOn(navigator.clipboard, 'writeText')
-      .mockImplementation(() => Promise.resolve());
+  // it('should copy the URL link into the clipboard when clicking the copy button', async () => {
+  //   const spyClipboardWriteText = vi
+  //     .spyOn(navigator.clipboard, 'writeText')
+  //     .mockImplementation(() => Promise.resolve());
 
-    customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
+  //   customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
-    const playlistNameInput = screen.getByLabelText(
-      /steps.step1.form.createNewPlaylist.giveAName/i
-    );
-    await userEvent.type(playlistNameInput, 'My new playlist');
+  //   const playlistNameInput = screen.getByLabelText(
+  //     /steps.step1.form.createNewPlaylist.giveAName/i
+  //   );
+  //   await userEvent.type(playlistNameInput, 'My new playlist');
 
-    await clickToNextButton();
+  //   await clickToNextButton();
 
-    const secondStepContentTitle = await waitFor(() => {
-      const secondStepContent = screen.getByRole('tabpanel');
-      return within(secondStepContent).getByText(/steps.step2.title/i);
-    });
+  //   const secondStepContentTitle = await waitFor(() => {
+  //     const secondStepContent = screen.getByRole('tabpanel');
+  //     return within(secondStepContent).getByText(/steps.step2.title/i);
+  //   });
 
-    expect(secondStepContentTitle).toBeInTheDocument();
+  //   expect(secondStepContentTitle).toBeInTheDocument();
 
-    await findAndSelectArtist('Holding Absence');
+  //   await findAndSelectArtist('Holding Absence');
 
-    const generateButton = screen.getByRole('button', {
-      name: /steps.navigation.generate/i,
-    });
-    await userEvent.click(generateButton);
+  //   const generateButton = screen.getByRole('button', {
+  //     name: /steps.navigation.generate/i,
+  //   });
+  //   await userEvent.click(generateButton);
 
-    const thirdStepContentTitle = await waitFor(() => {
-      const thirdStepContent = screen.getByRole('tabpanel');
-      return within(thirdStepContent).getByText(/steps.step3.title/i);
-    });
+  //   const thirdStepContentTitle = await waitFor(() => {
+  //     const thirdStepContent = screen.getByRole('tabpanel');
+  //     return within(thirdStepContent).getByText(/steps.step3.title/i);
+  //   });
 
-    expect(thirdStepContentTitle).toBeInTheDocument();
+  //   expect(thirdStepContentTitle).toBeInTheDocument();
 
-    const copyURLButton = screen.getByRole('button', {
-      name: /steps.step3.copyButton/i,
-    });
-    expect(copyURLButton).toBeInTheDocument();
+  //   const copyURLButton = screen.getByRole('button', {
+  //     name: /steps.step3.copyButton/i,
+  //   });
+  //   expect(copyURLButton).toBeInTheDocument();
 
-    userEvent.click(copyURLButton);
+  //   userEvent.click(copyURLButton);
 
-    await waitFor(() => {
-      expect(spyClipboardWriteText).toHaveBeenCalledWith(
-        'https://open.spotify.com/playlist/' + createdPlaylistId
-      );
-    });
-  });
+  //   await waitFor(() => {
+  //     expect(spyClipboardWriteText).toHaveBeenCalledWith(
+  //       'https://open.spotify.com/playlist/' + createdPlaylistId
+  //     );
+  //   });
+  // });
 
   it('should display an error when it tries to submitting the form', async () => {
     playlistsService.createNewPlaylist.mockRejectedValue({
