@@ -125,6 +125,20 @@ const customRenderWithProviders = (ui: ReactNode) => {
 };
 
 describe('GeneratePlaylistPage', () => {
+
+  let searchResultArtists = ['Holding Absence'];
+  let createdPlaylistId = '123';
+
+  beforeEach(() => {
+    artistsService.searchArtists.mockResolvedValue({
+      artists: searchResultArtists.map(name => ({ name: name, imageUri: null }))
+    });
+
+    playlistsService.createNewPlaylist.mockResolvedValue({
+      playlistCreated: { id: createdPlaylistId },
+    });
+  });
+
   it('should render the form with the first step displayed', async () => {
     customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
@@ -251,20 +265,6 @@ describe('GeneratePlaylistPage', () => {
   });
 
   it('should create the new playlist and display the success message', async () => {
-    artistsService.searchArtists.mockResolvedValue({
-      artists: [
-        {
-          name: 'Holding Absence',
-          imageUri: null,
-        },
-      ],
-    });
-    playlistsService.createNewPlaylist.mockResolvedValue({
-      playlistCreated: {
-        id: '123',
-      },
-    });
-
     customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     const playlistNameInput = screen.getByLabelText(
@@ -322,25 +322,7 @@ describe('GeneratePlaylistPage', () => {
     });
   });
 
-  it('should copy the URL link into the clipboard when clicking the copy button', async () => {
-    const spyClipboardWriteText = vi
-      .spyOn(navigator.clipboard, 'writeText')
-      .mockImplementation(() => Promise.resolve());
-
-    artistsService.searchArtists.mockResolvedValue({
-      artists: [
-        {
-          name: 'Holding Absence',
-          imageUri: null,
-        },
-      ],
-    });
-    playlistsService.createNewPlaylist.mockResolvedValue({
-      playlistCreated: {
-        id: '123',
-      },
-    });
-
+  it('should show the embedded playlist on successful update', async () => {
     customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     const playlistNameInput = screen.getByLabelText(
@@ -368,32 +350,13 @@ describe('GeneratePlaylistPage', () => {
       const thirdStepContent = screen.getByRole('tabpanel');
       return within(thirdStepContent).getByText(/steps.step3.title/i);
     });
+    const embeddedPlaylist = screen.queryByTitle('Spotify embedded playlist');
 
     expect(thirdStepContentTitle).toBeInTheDocument();
-
-    const copyURLButton = screen.getByRole('button', {
-      name: /steps.step3.copyButton/i,
-    });
-    expect(copyURLButton).toBeInTheDocument();
-
-    userEvent.click(copyURLButton);
-
-    await waitFor(() => {
-      expect(spyClipboardWriteText).toHaveBeenCalledWith(
-        'https://open.spotify.com/playlist/123'
-      );
-    });
+    expect(embeddedPlaylist).toHaveAttribute('src', `https://open.spotify.com/embed/playlist/${createdPlaylistId}`);
   });
 
   it('should display an error when it tries to submitting the form', async () => {
-    artistsService.searchArtists.mockResolvedValue({
-      artists: [
-        {
-          name: 'Holding Absence',
-          imageUri: null,
-        },
-      ],
-    });
     playlistsService.createNewPlaylist.mockRejectedValue({
       error: 'Error creating playlist',
     });

@@ -21,7 +21,6 @@
       }
     },
     "navigation": {
-      "finish": "Finalitzar",
       "generate": "Generar",
       "generating": "Generant...",
       "next": "Següent",
@@ -67,11 +66,9 @@
       "title": "Cerca els artistes"
     },
     "step3": {
-      "copyButton": "Copia URL",
-      "copySuccessButton": "Copiat!",
-      "description": "Obre la llista generada o modificada utilitzant la URL de Spotify",
+      "description": "Visualitza les cançons afegides a a llista",
       "playlisyGeneratedSuccessfully": "Llista generada amb èxit",
-      "title": "Copia la URL"
+      "title": "Visualitza la llista de reproducció"
     }
   }
 }

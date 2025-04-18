@@ -1,13 +1,12 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import PlaylistGetUrlLink from '@components/generate/PlaylistGetUrlLink/PlaylistGetUrlLink';
+import PlaylistUpdateReport from '@/components/generate/PlaylistUpdateReport/PlaylistUpdateReport';
 import PlaylistSearchArtistsForm from '@/components/generate/PlaylistSearchArtistsForm/PlaylistSearchArtistsForm';
 import PlaylistSetupForm from '@components/generate/PlaylistSetupForm/PlaylistSetupForm';
 import { Button } from '@components/ui/Button';
 import { Stepper, StepList, Step, StepContent } from '@components/ui/Stepper';
 import useTranslation from 'next-translate/useTranslation';
-import Link from 'next/link';
 import { useState } from 'react';
 import { Form } from '@components/ui/Form';
 import { usePlaylistSubmission } from './usePlaylistSubmission';
@@ -114,7 +113,6 @@ const GeneratePlaylistStepper = () => {
   const shouldDisplayBackButton =
     currentStep > 1 && currentStep !== STEPS_COUNT;
   const shouldDisplayNextButton = currentStep === 1;
-  const shouldDisplayFinishButton = currentStep === STEPS_COUNT;
   const shouldDisplaySubmitButton = currentStep === 2;
 
   return (
@@ -151,7 +149,7 @@ const GeneratePlaylistStepper = () => {
               <PlaylistSearchArtistsForm />
             </StepContent>
             <StepContent stepNumber={3}>
-              <PlaylistGetUrlLink playlistId={playlistId} />
+              <PlaylistUpdateReport playlistId={playlistId} />
             </StepContent>
             <div className="flex justify-end space-x-6 mt-8">
               {shouldDisplayBackButton && (
@@ -173,11 +171,6 @@ const GeneratePlaylistStepper = () => {
                   {isLoading
                     ? t('steps.navigation.generating')
                     : t('steps.navigation.generate')}
-                </Button>
-              )}
-              {shouldDisplayFinishButton && (
-                <Button asChild>
-                  <Link href="/">{t('steps.navigation.finish')}</Link>
                 </Button>
               )}
             </div>

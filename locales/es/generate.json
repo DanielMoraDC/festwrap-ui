@@ -21,7 +21,6 @@
       }
     },
     "navigation": {
-      "finish": "Finalizar",
       "generate": "Generar",
       "generating": "Generando...",
       "next": "Siguiente",
@@ -68,11 +67,9 @@
       "title": "Busca los artistas"
     },
     "step3": {
-      "copyButton": "Copia URL",
-      "copySuccessButton": "Copiada!",
-      "description": "Abre la lista de reproducción generada o modificada usando la URL de Spotify",
+      "description": "Visualiza las canciones añadidas en la lista",
       "playlisyGeneratedSuccessfully": "Lista de reproducción generada con éxito",
-      "title": "Copia la URL"
+      "title": "Visualiza la lista de reproducción"
     }
   }
 }

@@ -21,7 +21,6 @@
       }
     },
     "navigation": {
-      "finish": "Finish",
       "generate": "Generate",
       "generating": "Generating...",
       "next": "Next",
@@ -67,11 +66,9 @@
       "title": "Search the artists"
     },
     "step3": {
-      "copyButton": "Copy URL",
-      "copySuccessButton": "Copied!",
-      "description": "Open the generated or modified playlist using the Spotify URL",
+      "description": "Visualize the songs added to the playlist",
       "playlisyGeneratedSuccessfully": "Playlist generated successfully",
-      "title": "Copy the URL"
+      "title": "Visualize the playlist"
     }
   }
 }
