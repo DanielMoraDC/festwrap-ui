@@ -142,9 +142,7 @@ describe('GeneratePlaylistPage', () => {
   it('should render the form with the first step displayed', async () => {
     customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
-    const firstNavigationStepButton = screen.getByRole('button', {
-      name: /steps.step1.title/i,
-    });
+    const firstNavigationStepButton = screen.getByTestId('step-header-1');
     expect(firstNavigationStepButton).toBeInTheDocument();
     expect(
       within(firstNavigationStepButton).getByText(/steps.step1.description/i)
@@ -160,7 +158,7 @@ describe('GeneratePlaylistPage', () => {
     });
     expect(previousButton).not.toBeInTheDocument();
 
-    const firstStepContent = screen.getByRole('tabpanel');
+    const firstStepContent = screen.getByTestId('step-content');
     expect(
       within(firstStepContent).getByText(/steps.step1.title/i)
     ).toBeInTheDocument();

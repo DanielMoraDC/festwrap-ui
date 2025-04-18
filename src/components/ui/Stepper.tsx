@@ -86,7 +86,7 @@ export function Step({
   const isDisabled = stepNumber > currentStep;
 
   return (
-    <div className="relative">
+    <div className="relative" data-testid={`step-header-${stepNumber}`}>
       <button
         type="button"
         onClick={() => !isDisabled && handleChangeStep(stepNumber)}
@@ -139,7 +139,7 @@ export function StepContent({
   if (stepNumber !== currentStep) return null;
 
   return (
-    <div className="space-y-6" role="tabpanel">
+    <div className="space-y-6" role="tabpanel" data-testid="step-content">
       {children}
     </div>
   );
