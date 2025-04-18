@@ -30,11 +30,11 @@ const PlaylistSetupForm = () => {
 
   return (
     <>
-      <div className="flex flex-col space-y-2">
-        <Heading as="h2" size="2xl" color="primary">
+      <div className="flex flex-col space-y-2" data-testid="playlist-setup">
+        <Heading as="h2" size="2xl" color="primary" data-testid="title">
           {t('steps.step1.title')}
         </Heading>
-        <p className="text-lg text-muted-foreground mt-2 text-dark-blue font-medium">
+        <p className="text-lg text-muted-foreground mt-2 text-dark-blue font-medium" data-testid="description">
           {t('steps.step1.description')}
         </p>
       </div>

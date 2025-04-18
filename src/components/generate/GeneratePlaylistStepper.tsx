@@ -155,12 +155,12 @@ const GeneratePlaylistStepper = () => {
             </StepContent>
             <div className="flex justify-end space-x-6 mt-8">
               {shouldDisplayBackButton && (
-                <Button variant="ghost" onClick={handleBack}>
+                <Button variant="ghost" onClick={handleBack} data-testid="prev-button">
                   {t('steps.navigation.previous')}
                 </Button>
               )}
               {shouldDisplayNextButton && (
-                <Button onClick={handleNext}>
+                <Button onClick={handleNext} data-testid="next-button">
                   {t('steps.navigation.next')}
                 </Button>
               )}

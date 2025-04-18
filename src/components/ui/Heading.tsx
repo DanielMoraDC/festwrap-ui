@@ -39,10 +39,12 @@ const Heading: React.FC<HeadingProps> = ({
   color = 'primary',
   weight = 'bold',
   children,
+  ...props
 }) => {
   return (
     <Component
       className={twMerge(sizeMap[size], colorMap[color], weightMap[weight])}
+      {...props}
     >
       {children}
     </Component>

@@ -86,7 +86,7 @@ export function Step({
   const isDisabled = stepNumber > currentStep;
 
   return (
-    <div className="relative" data-testid={`step-header-${stepNumber}`}>
+    <div className="relative" data-testid={`step-item-${stepNumber}`}>
       <button
         type="button"
         onClick={() => !isDisabled && handleChangeStep(stepNumber)}
@@ -109,8 +109,8 @@ export function Step({
           {isCompleted ? <Check size={20} /> : stepNumber}
         </div>
         <div className="flex-1 text-left">
-          <div className="font-semibold">{title}</div>
-          <div className="text-sm font-medium text-muted-foreground text-dark-blue">
+          <div className="font-semibold" data-testid="title">{title}</div>
+          <div className="text-sm font-medium text-muted-foreground text-dark-blue" data-testid="description">
             {description}
           </div>
         </div>

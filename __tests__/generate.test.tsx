@@ -139,32 +139,24 @@ describe('GeneratePlaylistPage', () => {
     });
   });
 
-  it('should render the form with the first step displayed', async () => {
+  // Render title
+  it('should render the first step content on render', async () => {
     customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
-    const firstNavigationStepButton = screen.getByTestId('step-header-1');
-    expect(firstNavigationStepButton).toBeInTheDocument();
-    expect(
-      within(firstNavigationStepButton).getByText(/steps.step1.description/i)
-    ).toBeInTheDocument();
+    // Header
+    const playlistSetup = screen.getByTestId("playlist-setup");
+    expect(playlistSetup).toBeInTheDocument();
+    expect(within(playlistSetup).queryByTestId("title")).toBeInTheDocument();
+    expect(within(playlistSetup).queryByTestId("description")).toBeInTheDocument();
 
-    const nextButton = screen.getByRole('button', {
-      name: /steps.navigation.next/i,
-    });
-    expect(nextButton).toBeInTheDocument();
+    // Navigation buttons
+    expect(screen.queryByTestId("next-button")).toBeInTheDocument();
+    expect(screen.queryByTestId("prev-button")).not.toBeInTheDocument();
 
-    const previousButton = screen.queryByRole('button', {
-      name: /steps.navigation.previous/i,
-    });
-    expect(previousButton).not.toBeInTheDocument();
-
-    const firstStepContent = screen.getByTestId('step-content');
-    expect(
-      within(firstStepContent).getByText(/steps.step1.title/i)
-    ).toBeInTheDocument();
-    expect(
-      within(firstStepContent).getByText(/steps.step1.description/i)
-    ).toBeInTheDocument();
+    // Stepper
+    const firstStepperItem = screen.getByTestId('step-item-1');
+    expect(within(firstStepperItem).queryByTestId("title")).toBeInTheDocument();
+    expect(within(firstStepperItem).queryByTestId("description")).toBeInTheDocument();
   });
 
   it('should display the error message when the "Create new playlist" option is selected and the playlist name is not filled', async () => {
