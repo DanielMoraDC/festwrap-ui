@@ -125,6 +125,15 @@ const customRenderWithProviders = (ui: ReactNode) => {
 };
 
 describe('GeneratePlaylistPage', () => {
+
+  let searchResultArtists = ['Holding Absence'];
+
+  beforeEach(() => {
+    artistsService.searchArtists.mockResolvedValue({
+      artists: searchResultArtists.map(name => ({ name: name, imageUri: null }))
+    });
+  });
+
   it('should render the form with the first step displayed', async () => {
     customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
@@ -251,14 +260,6 @@ describe('GeneratePlaylistPage', () => {
   });
 
   it('should create the new playlist and display the success message', async () => {
-    artistsService.searchArtists.mockResolvedValue({
-      artists: [
-        {
-          name: 'Holding Absence',
-          imageUri: null,
-        },
-      ],
-    });
     playlistsService.createNewPlaylist.mockResolvedValue({
       playlistCreated: {
         id: '123',
@@ -327,14 +328,6 @@ describe('GeneratePlaylistPage', () => {
       .spyOn(navigator.clipboard, 'writeText')
       .mockImplementation(() => Promise.resolve());
 
-    artistsService.searchArtists.mockResolvedValue({
-      artists: [
-        {
-          name: 'Holding Absence',
-          imageUri: null,
-        },
-      ],
-    });
     playlistsService.createNewPlaylist.mockResolvedValue({
       playlistCreated: {
         id: '123',
@@ -386,14 +379,6 @@ describe('GeneratePlaylistPage', () => {
   });
 
   it('should display an error when it tries to submitting the form', async () => {
-    artistsService.searchArtists.mockResolvedValue({
-      artists: [
-        {
-          name: 'Holding Absence',
-          imageUri: null,
-        },
-      ],
-    });
     playlistsService.createNewPlaylist.mockRejectedValue({
       error: 'Error creating playlist',
     });
