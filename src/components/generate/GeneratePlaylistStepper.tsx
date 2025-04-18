@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import PlaylistGetUrlLink from '@components/generate/PlaylistGetUrlLink/PlaylistGetUrlLink';
+import PlaylistUpdateReport from '@/components/generate/PlaylistUpdateReport/PlaylistUpdateReport';
 import PlaylistSearchArtistsForm from '@/components/generate/PlaylistSearchArtistsForm/PlaylistSearchArtistsForm';
 import PlaylistSetupForm from '@components/generate/PlaylistSetupForm/PlaylistSetupForm';
 import { Button } from '@components/ui/Button';
@@ -151,7 +151,7 @@ const GeneratePlaylistStepper = () => {
               <PlaylistSearchArtistsForm />
             </StepContent>
             <StepContent stepNumber={3}>
-              <PlaylistGetUrlLink playlistId={playlistId} />
+              <PlaylistUpdateReport playlistId={playlistId} />
             </StepContent>
             <div className="flex justify-end space-x-6 mt-8">
               {shouldDisplayBackButton && (

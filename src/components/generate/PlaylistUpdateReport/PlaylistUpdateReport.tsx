@@ -8,7 +8,7 @@ import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 
 const URL_BASE = 'https://open.spotify.com/playlist/';
 
-const PlaylistGetUrlLink = ({
+const PlaylistUpdateReport = ({
   playlistId,
 }: {
   playlistId: string | undefined;
@@ -54,4 +54,4 @@ const PlaylistGetUrlLink = ({
   );
 };
 
-export default PlaylistGetUrlLink;
+export default PlaylistUpdateReport;
