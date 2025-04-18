@@ -127,10 +127,15 @@ const customRenderWithProviders = (ui: ReactNode) => {
 describe('GeneratePlaylistPage', () => {
 
   let searchResultArtists = ['Holding Absence'];
+  let createdPlaylistId = '123';
 
   beforeEach(() => {
     artistsService.searchArtists.mockResolvedValue({
       artists: searchResultArtists.map(name => ({ name: name, imageUri: null }))
+    });
+
+    playlistsService.createNewPlaylist.mockResolvedValue({
+      playlistCreated: { id: createdPlaylistId },
     });
   });
 
@@ -260,12 +265,6 @@ describe('GeneratePlaylistPage', () => {
   });
 
   it('should create the new playlist and display the success message', async () => {
-    playlistsService.createNewPlaylist.mockResolvedValue({
-      playlistCreated: {
-        id: '123',
-      },
-    });
-
     customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     const playlistNameInput = screen.getByLabelText(
@@ -328,12 +327,6 @@ describe('GeneratePlaylistPage', () => {
       .spyOn(navigator.clipboard, 'writeText')
       .mockImplementation(() => Promise.resolve());
 
-    playlistsService.createNewPlaylist.mockResolvedValue({
-      playlistCreated: {
-        id: '123',
-      },
-    });
-
     customRenderWithProviders(<GeneratePlaylistPage {...staticTranslations} />);
 
     const playlistNameInput = screen.getByLabelText(
@@ -373,7 +366,7 @@ describe('GeneratePlaylistPage', () => {
 
     await waitFor(() => {
       expect(spyClipboardWriteText).toHaveBeenCalledWith(
-        'https://open.spotify.com/playlist/123'
+        'https://open.spotify.com/playlist/' + createdPlaylistId
       );
     });
   });
