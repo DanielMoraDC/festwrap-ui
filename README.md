@@ -1,5 +1,9 @@
 # Overview
 
+> [!WARNING]
+> This repository is archived.
+> Due to the restrictions on API usage for Spotify apps, this is no longer working for Spotify playlists.
+
 UI for Festwrap, an APP to facilitate the creation of custom playlists for the musical events you attend. We use Spotify for hosting the playlists.
 
 The backend is located in [this repository](https://github.com/DanielMoraDC/festwrap-server).
